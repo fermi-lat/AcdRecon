@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.1.1.1 2002/06/07 21:56:40 heather Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.2 2002/06/12 06:41:57 heather Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -182,6 +182,9 @@ StatusCode AcdReconAlg::reconstruct (const Event::AcdDigiCol& digiCol)
     log << MSG::DEBUG << "total energy = " << m_totEnergy << endreq;
 
     acdDoca();
+
+    log << MSG::DEBUG << "DOCA: " << m_doca << " "
+        << "ActDist: " << m_act_dist << endreq;
 
     m_acdRecon->initialize(m_totEnergy, m_tileCount, m_gammaDoca, m_doca, 
         m_act_dist, m_minDocaId, m_rowDocaCol, m_energyCol);
