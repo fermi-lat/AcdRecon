@@ -1,5 +1,5 @@
 // File and Version Information:
-// $Header$
+// $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.6 2002/09/09 19:12:23 heather Exp $
 // Description:
 // Handles the display of the ACD DOCA values on the GUI.
 
@@ -25,7 +25,7 @@
  * @brief Display the ACD DOCA's as numbers at the tile center positions
  *
  * @author Heather Kelly
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.5 2002/09/04 21:19:10 heather Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.6 2002/09/09 19:12:23 heather Exp $
  */
 class AcdDisplay : public Algorithm
 {
@@ -64,13 +64,9 @@ public:
         // no, only show the closest one for now
 	if( acdRec->getDoca()>1000. ) return;
 
-        // get the VolumeIdentifier of the closest doca (TODO: move this to idents::AcdId)
+        // get the VolumeIdentifier of the closest doca
         idents::AcdId id = acdRec->getMinDocaId();
-        idents::VolumeIdentifier volid;
-        volid.append(1); 
-        volid.append(id.face()); 
-        volid.append(id.column()); 
-        volid.append(id.row());
+        const idents::VolumeIdentifier volid = id.volId();
 
         HepPoint3D tilecenter;
         HepTransform3D transform;
