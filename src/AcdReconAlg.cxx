@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.17 2002/10/09 23:35:24 usher Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.18 2002/12/20 20:18:27 heather Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -94,12 +94,16 @@ StatusCode AcdReconAlg::execute() {
 	
     // run the reconstruction
     reconstruct(m_acdDigiCol);
+
+    m_acdDigiCol = 0;
 	
     return sc;
 }
 
 
 StatusCode AcdReconAlg::finalize() {    
+    clear();
+    m_acdDigiCol = 0;
     return StatusCode::SUCCESS;
 }
 
@@ -164,17 +168,17 @@ StatusCode AcdReconAlg::reconstruct (const Event::AcdDigiCol& digiCol) {
     
     for (acdDigiIt = digiCol.begin(); acdDigiIt != digiCol.end(); acdDigiIt++) {
         
-		// toss out hits below threshold
+        // toss out hits below threshold
         if ((*acdDigiIt)->getEnergy() < s_vetoThresholdMeV) continue; 
-		
+        
         m_tileCount++;
         double tileEnergy = (*acdDigiIt)->getEnergy();
         m_totEnergy += tileEnergy;
         idents::AcdId id = (*acdDigiIt)->getId();
-		
-		// Temporarily populate reconstructed energy collection with digi energy
-		m_idCol.push_back(id);
-		m_energyCol.push_back(tileEnergy);
+        
+        // Temporarily populate reconstructed energy collection with digi energy
+        m_idCol.push_back(id);
+        m_energyCol.push_back(tileEnergy);
     }
 	
     log << MSG::DEBUG << "num Tiles = " << m_tileCount << endreq;
