@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.24 2003/09/30 17:45:40 atwood Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.25 2003/10/20 23:33:55 heather Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -144,7 +144,7 @@ void AcdReconAlg::clear() {
     m_energyRibbonCol.clear();
     m_idRibbonCol.clear();
     m_act_dist = -maxDoca;
-    m_ribbon_act_dist = -maxDoca;
+    m_ribbon_act_dist = maxDoca;
 }
 
 StatusCode AcdReconAlg::reconstruct (const Event::AcdDigiCol& digiCol) {
@@ -262,7 +262,7 @@ StatusCode AcdReconAlg::trackDistances(const Event::AcdDigiCol& digiCol) {
 
         sc = hitRibbonDist(digiCol, trackTds->getPosition(), trackTds->getDirection(),
             ribDist);
-        if (ribDist > m_ribbon_act_dist) m_ribbon_act_dist = ribDist;
+        if (ribDist < m_ribbon_act_dist) m_ribbon_act_dist = ribDist;
         if (sc.isFailure()) return sc;
     }
 	
@@ -453,7 +453,6 @@ StatusCode AcdReconAlg::hitRibbonDist(const Event::AcdDigiCol& digiCol, const He
 
     return_dist = maxDoca;
     int ribbonX = 5, ribbonY = 6;
-//    int ribbonX = 6, ribbonY = 5;
 
     // iterate over all digis and search for ribbons
     Event::AcdDigiCol::const_iterator acdDigiIt;
