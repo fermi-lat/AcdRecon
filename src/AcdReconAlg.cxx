@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.9 2002/06/20 14:59:14 heather Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.10 2002/08/28 20:33:05 heather Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -275,7 +275,11 @@ double AcdReconAlg::doca (const Point &x0, const Vector &t0, std::vector<double>
         // i.e. top, and each type of side row tile
         if (acdId.top() && dist < doca_values[0]) doca_values[0] = dist;
         if (acdId.side()) {
-            if (dist < doca_values[acdId.row()+1]) doca_values[acdId.row()+1] = dist;
+	  int k = acdId.row()+1;
+	  if( k >= doca_values.size()){
+	    log << MSG::WARNING << "rejecting bad ACD id, row = " << k-1 << endreq;
+	  }else
+            if (dist < doca_values[k]) doca_values[k] = dist;
         }
 
     }
@@ -370,7 +374,11 @@ double AcdReconAlg::hitTileDist(const Point &x0, const Vector &t0, std::vector<d
         // i.e. top, and each type of side row tile
         if (acdId.top() && test_dist < row_values[0]) row_values[0] = test_dist;
         if (acdId.side()) {
-            if (test_dist < row_values[acdId.row()+1]) row_values[acdId.row()+1] = test_dist;
+	  int k = acdId.row()+1;
+	  if( k >= row_values.size()){
+	    log << MSG::WARNING << "rejecting bad ACD id, row = " << k-1 << endreq;
+	  }else
+            if (test_dist < row_values[k]) row_values[k] = test_dist;
         }
 
     }
