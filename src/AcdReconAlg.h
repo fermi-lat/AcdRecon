@@ -35,7 +35,7 @@
  *
  * @author Heather Kelly
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.6 2002/09/04 21:19:10 heather Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.7 2002/09/09 19:12:23 heather Exp $
  */
 class AcdReconAlg : public Algorithm
 {
@@ -68,7 +68,7 @@ class AcdReconAlg : public Algorithm
       double hitTileDist(const HepPoint3D &x0, const HepVector3D &dir, std::vector<double> &row_values);
 
       /// variables to store instrument parameters
-      static double s_thresholdEnergy;
+      static double s_vetoThresholdMeV;
       static unsigned int s_numSideRows;
 
       // record of the tile with the minimum Distance of Closest Approach
