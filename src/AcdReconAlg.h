@@ -35,7 +35,7 @@
  *
  * @author Heather Kelly
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.7 2002/09/09 19:12:23 heather Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.8 2002/09/27 20:55:49 heather Exp $
  */
 class AcdReconAlg : public Algorithm
 {
@@ -94,7 +94,9 @@ class AcdReconAlg : public Algorithm
       /// list of active distance values for top and each side row
       std::vector<double> m_rowActDistCol;
       /// map of AcdId and their corresponding energies
-      std::map<idents::AcdId, double> m_energyCol;
+      //std::map<idents::AcdId, double> m_energyCol;
+	  std::vector<idents::AcdId> m_idCol;
+	  std::vector<double> m_energyCol;
 };
 
 #endif
