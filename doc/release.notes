@@ -3,6 +3,7 @@ package AcdRecon\n
 package manager:H.Kelly
 @verbatim
 
+v1r7p3gr1 20-Oct-2004 HMK Use veto discrim cut for ribbons too
 v1r7p3gr0 14-Oct-2004 HMK Use Veto discrim rather than energy as cut
 v1r7p3    22-Jul-2004 HMK Address bug in CMT, JIRA CMT-25, add extra private statement
 v1r7p2    15-Jun-2004 HMK Use any GlastPolicy version

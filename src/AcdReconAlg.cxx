@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.27 2003/10/22 05:32:59 heather Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.27.2.1 2004/10/14 21:28:58 heather Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -473,6 +473,8 @@ StatusCode AcdReconAlg::hitRibbonDist(const Event::AcdDigiCol& digiCol, const He
         idents::AcdId acdId = (*acdDigiIt)->getId();
         // if a tile - skip we want ribbons
         if (acdId.tile()) continue;
+        // Ignore hits where neither PMT has a VETO discrim set
+        if ( (!(*acdDigiIt)->getVeto(Event::AcdDigi::A)) && (!(*acdDigiIt)->getVeto(Event::AcdDigi::B)) ) continue;
 
         // Need to reconstruct the required volume ids to retrieve the geometry information
         // For now we brute force it.. and construct what we need
