@@ -7,7 +7,7 @@
 #include "GaudiKernel/SmartDataPtr.h"
 
 #include "Event/TopLevel/EventModel.h"
-#include "Event/Recon/AcdRecon.h"
+#include "Event/Recon/AcdRecon/AcdRecon.h"
 #include "idents/VolumeIdentifier.h"
 
 #include "GlastSvc/GlastDetSvc/IGlastDetSvc.h"
@@ -22,7 +22,7 @@
  * @brief Display the ACD DOCA's as numbers at the tile center positions
  *
  * @author Heather Kelly
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.2 2002/06/13 14:36:36 heather Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.3 2002/06/20 00:00:20 burnett Exp $
  */
 class AcdDisplay : public Algorithm
 {

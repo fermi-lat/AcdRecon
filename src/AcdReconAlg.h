@@ -6,7 +6,7 @@
 #include "Event/TopLevel/Event.h"
 #include "Event/Digi/AcdDigi.h"
 #include "Event/TopLevel/EventModel.h"
-#include "Event/Recon/AcdRecon.h"
+#include "Event/Recon/AcdRecon/AcdRecon.h"
 
 #include "GaudiKernel/ObjectVector.h"
 
@@ -26,7 +26,7 @@ class Ray;
  *
  * @author Heather Kelly
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.3 2002/06/13 19:23:26 heather Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.4 2002/06/14 00:13:38 heather Exp $
  */
 class AcdReconAlg : public Algorithm
 {
@@ -56,7 +56,7 @@ class AcdReconAlg : public Algorithm
       double doca (const Point &x0, const Vector &dir, std::vector<double> &doca_values);
 
       /// Bill Atwood's new calculation for Active Distance
-      double hitTileDist(const Point &x0, const Vector &dir);
+      double hitTileDist(const Point &x0, const Vector &dir, std::vector<double> &row_values);
 
       /// variables to store instrument parameters
       static double s_thresholdEnergy;
@@ -76,6 +76,7 @@ class AcdReconAlg : public Algorithm
       unsigned int m_tileCount;
       double m_totEnergy, m_gammaDoca, m_doca, m_act_dist;
       std::vector<double> m_rowDocaCol;
+      std::vector<double> m_rowActDistCol;
       std::map<idents::AcdId, double> m_energyCol;
 
 
