@@ -35,7 +35,7 @@
  *
  * @author Heather Kelly
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.9 2002/10/02 13:45:10 heather Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.10 2002/12/31 16:57:24 heather Exp $
  */
 class AcdReconAlg : public Algorithm
 {
@@ -62,11 +62,12 @@ class AcdReconAlg : public Algorithm
 
       /// Old style - distance of closest approach calculation
       /// Finds minimum perpendicular distance from tracks to the center of the tiles
-      double doca (const Event::AcdDigiCol& digiCol, const HepPoint3D &x0, const HepVector3D &dir, std::vector<double> &doca_values);
+      StatusCode doca (const Event::AcdDigiCol& digiCol, const HepPoint3D &x0, 
+          const HepVector3D &dir, std::vector<double> &doca_values, double &minDoca);
 
       /// Bill Atwood's new calculation for Active Distance
-      double hitTileDist(const Event::AcdDigiCol& digiCol, const HepPoint3D &x0, 
-          const HepVector3D &dir, std::vector<double> &row_values);
+      StatusCode hitTileDist(const Event::AcdDigiCol& digiCol, const HepPoint3D &x0, 
+          const HepVector3D &dir, std::vector<double> &row_values, double &dist);
 
       /// variables to store instrument parameters
       static double s_vetoThresholdMeV;
