@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.6 2002/06/13 19:23:26 heather Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.7 2002/06/14 00:13:38 heather Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -206,7 +206,7 @@ StatusCode AcdReconAlg::acdDoca() {
     Event::TkrFitColPtr trkPtr = tracksTds->begin();
     while(trkPtr != tracksTds->end())
     {
-        Event::TkrFitTrack* trackTds  = *trkPtr++;       // The TDS track
+        const Event::TkrFitTrack* trackTds  = *trkPtr++;       // The TDS track
         float testDoca = doca(trackTds->getPosition(), trackTds->getDirection(), m_rowDocaCol);
         if(testDoca < m_doca) m_doca = testDoca;
         float test_dist= hitTileDist(trackTds->getPosition(), -(trackTds->getDirection()));
