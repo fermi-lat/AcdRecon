@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.2 2002/06/12 06:41:57 heather Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.3 2002/06/13 01:01:59 heather Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -212,7 +212,7 @@ StatusCode AcdReconAlg::acdDoca() {
         double y = trackTds->getPosition().y();
         double z = trackTds->getPosition().z();
         Point pos(x,y,z);
-        Vector dir(trackTds->getDirection().x(),trackTds->getDirection().z(),trackTds->getDirection().z());
+        Vector dir(trackTds->getDirection().x(),trackTds->getDirection().y(),trackTds->getDirection().z());
            
         float testDoca = doca(pos, dir, m_rowDocaCol);
         if(testDoca < m_doca) m_doca = testDoca;
