@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.4 2002/06/13 14:36:36 heather Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.5 2002/06/13 16:52:52 burnett Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -284,7 +284,7 @@ double AcdReconAlg::doca (const Point &x0, const Vector &t0, std::vector<double>
     return 0;
 }
 
-double AcdReconAlg::hitTileDist(const Point &x0, const Vector &t0)
+double AcdReconAlg::hitTileDist(const Point &x0, Vector &t0)
 {
     // Purpose and Method:  Bill Atwood's new edge DOCA algorithm
     //       Determines minimum distance between a track and the edges of ACD
@@ -297,6 +297,8 @@ double AcdReconAlg::hitTileDist(const Point &x0, const Vector &t0)
     MsgStream   log( msgSvc(), name() );
 
     double return_dist = -200.;
+
+    t0 = -t0;
         
     // iterate over all tiles
     Event::AcdDigiCol::const_iterator acdDigiIt;

@@ -26,7 +26,7 @@ class Ray;
  *
  * @author Heather Kelly
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.1.1.1 2002/06/07 21:56:40 heather Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.2 2002/06/12 06:41:57 heather Exp $
  */
 class AcdReconAlg : public Algorithm
 {
@@ -56,7 +56,7 @@ class AcdReconAlg : public Algorithm
       double doca (const Point &x0, const Vector &dir, std::vector<double> &doca_values);
 
       /// Bill Atwood's new calculation for Active Distance
-      double hitTileDist(const Point &x0, const Vector &dir);
+      double hitTileDist(const Point &x0, Vector &dir);
 
       /// variables to store instrument parameters
       static double s_thresholdEnergy;
