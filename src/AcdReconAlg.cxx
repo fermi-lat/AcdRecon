@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.30 2004/10/14 22:00:57 heather Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.31 2004/10/21 05:17:21 heather Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -20,8 +20,6 @@
 #include "Event/Recon/TkrRecon/TkrTrack.h"
 
 #include "CLHEP/Geometry/Transform3D.h"
-
-#include "xml/IFile.h"
 
 #include <algorithm>
 #include <cstdio>
