@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.29 2004/10/01 19:43:05 usher Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.30 2004/10/14 22:00:57 heather Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -182,8 +182,7 @@ StatusCode AcdReconAlg::reconstruct (const Event::AcdDigiCol& digiCol) {
         //if ((*acdDigiIt)->getEnergy() < s_vetoThresholdMeV) continue; 
         // Use Veto Discrim instead
         // Skip this ACD detector if neither PMT has veto discrim set
-        if ( (!(*acdDigiIt)->getVeto(Event::AcdDigi::A)) && (!(*acdDigiIt)->getV
-eto(Event::AcdDigi::B)) ) continue; 
+        if ( (!(*acdDigiIt)->getVeto(Event::AcdDigi::A)) && (!(*acdDigiIt)->getVeto(Event::AcdDigi::B)) ) continue; 
 
         m_tileCount++;
         double tileEnergy = (*acdDigiIt)->getEnergy();
@@ -312,7 +311,7 @@ StatusCode AcdReconAlg::doca(const Event::AcdDigiCol& digiCol, const HepPoint3D 
         // if ((*acdDigiIt)->getEnergy() < s_vetoThresholdMeV) continue;
         // Use Veto Discrim instead
         // Skip this ACD detector if neither PMT has veto discrim set
-        if ( (!(*acdDigiIt)->getVeto(Event::AcdDigi::A)) && (!(*acdDigiIt)->getV
+        if ( (!(*acdDigiIt)->getVeto(Event::AcdDigi::A)) && (!(*acdDigiIt)->getVeto(Event::AcdDigi::B)) ) continue; 
 		
         idents::VolumeIdentifier volId = (*acdDigiIt)->getVolId();
         std::string str;
@@ -382,7 +381,7 @@ StatusCode AcdReconAlg::hitTileDist(const Event::AcdDigiCol& digiCol, const HepP
         // if ((*acdDigiIt)->getEnergy() < s_vetoThresholdMeV) continue; 
         // Use Veto Discrim instead
         // Skip this ACD detector if neither PMT has veto discrim set
-        if ( (!(*acdDigiIt)->getVeto(Event::AcdDigi::A)) && (!(*acdDigiIt)->getV
+        if ( (!(*acdDigiIt)->getVeto(Event::AcdDigi::A)) && (!(*acdDigiIt)->getVeto(Event::AcdDigi::B)) ) continue; 
 
 
         idents::VolumeIdentifier volId = (*acdDigiIt)->getVolId();
@@ -488,6 +487,7 @@ StatusCode AcdReconAlg::hitRibbonDist(const Event::AcdDigiCol& digiCol, const He
         idents::AcdId acdId = (*acdDigiIt)->getId();
         // if a tile - skip we want ribbons
         if (acdId.tile()) continue;
+        if ( (!(*acdDigiIt)->getVeto(Event::AcdDigi::A)) && (!(*acdDigiIt)->getVeto(Event::AcdDigi::B)) ) continue; 
 
         // Need to reconstruct the required volume ids to retrieve the geometry information
         // For now we brute force it.. and construct what we need
