@@ -1,5 +1,4 @@
 
-// Gaudi specific include files
 #include "GaudiKernel/Algorithm.h"
 #include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/AlgFactory.h"
@@ -22,12 +21,11 @@
  * @brief Display the ACD DOCA's as numbers at the tile center positions
  *
  * @author Heather Kelly
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.3 2002/06/20 00:00:20 burnett Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.4 2002/08/28 20:33:05 heather Exp $
  */
 class AcdDisplay : public Algorithm
 {
 public:
-    // Constructor of this form must be provided
     AcdDisplay(const std::string& name, ISvcLocator* pSvcLocator); 
     virtual ~AcdDisplay() {}
 
