@@ -1,3 +1,7 @@
+// File and Version Information:
+// $Header$
+// Description:
+// Handles the display of the ACD DOCA values on the GUI.
 
 #include "GaudiKernel/Algorithm.h"
 #include "GaudiKernel/MsgStream.h"
@@ -21,7 +25,7 @@
  * @brief Display the ACD DOCA's as numbers at the tile center positions
  *
  * @author Heather Kelly
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.4 2002/08/28 20:33:05 heather Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.5 2002/09/04 21:19:10 heather Exp $
  */
 class AcdDisplay : public Algorithm
 {
