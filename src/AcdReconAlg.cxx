@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.26 2003/10/21 00:04:36 heather Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.27 2003/10/22 05:32:59 heather Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -171,8 +171,11 @@ StatusCode AcdReconAlg::reconstruct (const Event::AcdDigiCol& digiCol) {
         idents::AcdId id = (*acdDigiIt)->getId();
 
         if (id.tile()) {
-        // toss out hits below threshold
-        if ((*acdDigiIt)->getEnergy() < s_vetoThresholdMeV) continue; 
+        // toss out hits below threshold -- OLD
+        //if ((*acdDigiIt)->getEnergy() < s_vetoThresholdMeV) continue; 
+        // Use Veto Discrim instead
+        // Skip this ACD detector if neither PMT has veto discrim set
+        if ( (!(*acdDigiIt)->getVeto(Event::AcdDigi::A)) && (!(*acdDigiIt)->getVeto(Event::AcdDigi::B)) ) continue;
         
         m_tileCount++;
         double tileEnergy = (*acdDigiIt)->getEnergy();
@@ -294,8 +297,11 @@ StatusCode AcdReconAlg::doca(const Event::AcdDigiCol& digiCol, const HepPoint3D 
          idents::AcdId acdId = (*acdDigiIt)->getId();
          if (acdId.ribbon()) continue;
 
-        // toss out hits below threshold
-        if ((*acdDigiIt)->getEnergy() < s_vetoThresholdMeV) continue;
+        // toss out hits below threshold -- OLD
+        //if ((*acdDigiIt)->getEnergy() < s_vetoThresholdMeV) continue;
+        // Use Veto Discrim instead
+        // Skip this ACD detector if neither PMT has veto discrim set
+        if ( (!(*acdDigiIt)->getVeto(Event::AcdDigi::A)) && (!(*acdDigiIt)->getVeto(Event::AcdDigi::B)) ) continue;
 		
         idents::VolumeIdentifier volId = (*acdDigiIt)->getVolId();
         std::string str;
@@ -359,8 +365,13 @@ StatusCode AcdReconAlg::hitTileDist(const Event::AcdDigiCol& digiCol, const HepP
         idents::AcdId acdId = (*acdDigiIt)->getId();
         if (acdId.ribbon()) continue;
 
-        // toss out hits below threshold
-        if ((*acdDigiIt)->getEnergy() < s_vetoThresholdMeV) continue; 
+        // toss out hits below threshold  -- OLD
+        //if ((*acdDigiIt)->getEnergy() < s_vetoThresholdMeV) continue; 
+        // Use Veto Discrim instead
+        // Skip this ACD detector if neither PMT has veto discrim set
+        if ( (!(*acdDigiIt)->getVeto(Event::AcdDigi::A)) && (!(*acdDigiIt)->getVeto(Event::AcdDigi::B)) ) continue;
+
+
         idents::VolumeIdentifier volId = (*acdDigiIt)->getVolId();
         std::string str;
         std::vector<double> dim;
