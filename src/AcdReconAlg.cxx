@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.16 2002/10/02 13:45:10 heather Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.17 2002/10/09 23:35:24 usher Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -17,7 +17,7 @@
 #include "GaudiKernel/SmartDataPtr.h"
 #include "GaudiKernel/StatusCode.h"
 
-#include "Event/Recon/TkrRecon/TkrFitTrack.h"
+#include "Event/Recon/TkrRecon/TkrFitTrackBase.h"
 
 #include "CLHEP/Geometry/Transform3D.h"
 
@@ -220,7 +220,7 @@ StatusCode AcdReconAlg::trackDistances() {
     Event::TkrFitColPtr trkPtr = tracksTds->begin();
     while(trkPtr != tracksTds->end())
     {
-        const Event::TkrFitTrack* trackTds  = *trkPtr++;       // The TDS track
+        const Event::TkrFitTrackBase* trackTds  = *trkPtr++;       // The TDS track
         double testDoca = doca(trackTds->getPosition(), trackTds->getDirection(), m_rowDocaCol);
         if(testDoca < m_doca) m_doca = testDoca;
         double test_dist= hitTileDist(trackTds->getPosition(), -(trackTds->getDirection()), m_rowActDistCol);
