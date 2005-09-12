@@ -36,7 +36,7 @@
  *
  * @author Heather Kelly
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.11 2003/02/28 23:56:16 heather Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.12 2003/10/20 23:33:55 heather Exp $
  */
 class AcdReconAlg : public Algorithm
 {
@@ -82,7 +82,7 @@ class AcdReconAlg : public Algorithm
       static unsigned int s_numSideRows;
 
       // record of the tile with the minimum Distance of Closest Approach
-      idents::AcdId m_minDocaId, m_ribbon_act_dist_id;
+      idents::AcdId m_minDocaId, m_ribbon_act_dist_id, m_maxActDistId;
 
       /// access to the Glast Detector Service to read in geometry constants from XML files
       IGlastDetSvc *m_glastDetSvc;
