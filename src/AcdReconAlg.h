@@ -9,6 +9,8 @@
 
 #include "GaudiKernel/ObjectVector.h"
 
+#include "AcdITkrIntersectTool.h"
+
 #include "GlastSvc/GlastDetSvc/IGlastDetSvc.h"
 #include "idents/AcdId.h"
 #include "idents/VolumeIdentifier.h"
@@ -36,7 +38,7 @@
  *
  * @author Heather Kelly
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.12 2003/10/20 23:33:55 heather Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.13 2005/09/12 20:39:45 heather Exp $
  */
 class AcdReconAlg : public Algorithm
 {
@@ -76,6 +78,12 @@ class AcdReconAlg : public Algorithm
 
       StatusCode getDetectorDimensions(const idents::VolumeIdentifier &volIId, std::vector<double> &dims, HepPoint3D &xT);
 
+      /// the tool to calculate the Track intersections w/ the ACD
+      /// pointer to actual tool for finding clusters
+      AcdITkrIntersectTool* m_intersectionTool;
+
+      /// name of Tool for finding last layer energy leakage
+      StringProperty m_intersectionToolName;
 
       /// variables to store instrument parameters
       static double s_vetoThresholdMeV;
@@ -103,6 +111,10 @@ class AcdReconAlg : public Algorithm
       //std::map<idents::AcdId, double> m_energyCol;
 	  std::vector<idents::AcdId> m_idCol, m_idRibbonCol;
 	  std::vector<double> m_energyCol, m_energyRibbonCol;
+
+   
+	  /// map of AcdId and the corresponding hit status 
+	  std::map<idents::AcdId,unsigned char> m_hitMap;
 };
 
 #endif

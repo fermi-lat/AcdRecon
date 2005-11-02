@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.34 2005/09/22 08:19:31 heather Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.35 2005/09/28 20:20:27 burnett Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -18,6 +18,7 @@
 #include "GaudiKernel/StatusCode.h"
 
 #include "Event/Recon/TkrRecon/TkrTrack.h"
+#include "Event/Recon/AcdRecon/AcdTkrIntersection.h"
 
 #include "CLHEP/Geometry/Transform3D.h"
 
@@ -37,7 +38,7 @@ static double maxDoca = 2000.0;
 // This should be done in the constructor
 AcdReconAlg::AcdReconAlg(const std::string& name, ISvcLocator* pSvcLocator) :
 Algorithm(name, pSvcLocator) {
-	
+  declareProperty("intersectionToolName", m_intersectionToolName="AcdTkrIntersectTool");
 }
 
 // ____________________________________________________________________________
@@ -61,6 +62,12 @@ StatusCode AcdReconAlg::initialize ( ) {
     if( sc.isFailure() ) {
         log << MSG::ERROR << "AcdReconAlg failed to get the GlastDetSvc" << endreq;
         return sc;
+    }
+
+    sc = toolSvc()->retrieveTool(m_intersectionToolName,  m_intersectionTool);
+    if (sc.isFailure() ) {
+      log << MSG::ERROR << "  Unable to create " << m_intersectionToolName << endreq;
+      return sc;
     }
 	
     getParameters();
@@ -148,6 +155,8 @@ void AcdReconAlg::clear() {
     m_idRibbonCol.clear();
     m_act_dist = -maxDoca;
     m_ribbon_act_dist = -maxDoca;
+
+    m_hitMap.clear();
 }
 
 // ____________________________________________________________________________
@@ -174,6 +183,12 @@ StatusCode AcdReconAlg::reconstruct (const Event::AcdDigiCol& digiCol) {
     for (acdDigiIt = digiCol.begin(); acdDigiIt != digiCol.end(); acdDigiIt++) {
         
         idents::AcdId id = (*acdDigiIt)->getId();
+
+	// caculate the hitMask and stick it in the map
+	unsigned char hitMask = 1;
+	hitMask |= (*acdDigiIt)->getVeto(Event::AcdDigi::A) ? 2 : 0;
+	hitMask |= (*acdDigiIt)->getVeto(Event::AcdDigi::A) ? 4 : 0;
+	m_hitMap[id] = hitMask;
 
         if (id.tile()) {
         // toss out hits below threshold -- OLD
@@ -214,27 +229,38 @@ StatusCode AcdReconAlg::reconstruct (const Event::AcdDigiCol& digiCol) {
         << "ActDist: " << m_act_dist;
     log << endreq;
 	
+    
+    static Event::AcdTkrIntersectionCol acdIntersections;
+
+    // get pointer to the tracker vertex collection
+    SmartDataPtr<Event::TkrTrackCol> trackCol(eventSvc(),EventModel::TkrRecon::TkrTrackCol);
+    // if reconstructed tracker data doesn't exist - put the debugging message    
+    if (trackCol==0) {
+      log << MSG::DEBUG << "No TKR Reconstruction available " << endreq;
+    } else {
+      sc = m_intersectionTool->findIntersections(trackCol,&acdIntersections,m_hitMap);
+      if ( sc.isFailure() ) return sc;
+    }
+
     SmartDataPtr<Event::AcdRecon> checkAcdRecTds(eventSvc(), EventModel::AcdRecon::Event);  
     if (checkAcdRecTds) {
         log << MSG::DEBUG;
         if (log.isActive()) log.stream() << "AcdRecon data already on TDS!";
         log << endreq;
         checkAcdRecTds->clear();
-        checkAcdRecTds->init(m_totEnergy, m_totRibbonEnergy, m_tileCount, 
-            m_ribbonCount, m_gammaDoca, m_doca, 
-            m_minDocaId, m_act_dist, m_maxActDistId, m_rowDocaCol, 
-            m_rowActDistCol, m_idCol, m_energyCol,
-            m_ribbon_act_dist, m_ribbon_act_dist_id);
+        checkAcdRecTds->init(m_totEnergy, m_tileCount, m_gammaDoca, m_doca, 
+            m_act_dist, m_minDocaId, m_rowDocaCol, m_rowActDistCol, m_idCol, m_energyCol,
+            acdIntersections, m_ribbon_act_dist, m_ribbon_act_dist_id);
+	// ownership handed to TDS, clear local copy
+	acdIntersections.clear();
     } else {
         // create the TDS location for the AcdRecon
-        Event::AcdRecon *acdRecon = new Event::AcdRecon(m_totEnergy, 
-                                   m_totRibbonEnergy,
-                                   m_tileCount, m_ribbonCount, m_gammaDoca, 
-                                   m_doca, 
-                                   m_minDocaId, m_act_dist, m_maxActDistId, 
-                           m_rowDocaCol, m_rowActDistCol, m_idCol, m_energyCol, 
-                           m_ribbon_act_dist, m_ribbon_act_dist_id);
-        
+        Event::AcdRecon *acdRecon = 
+	  new Event::AcdRecon(m_totEnergy, m_tileCount, m_gammaDoca, m_doca, 
+			      m_act_dist, m_minDocaId, m_rowDocaCol, m_rowActDistCol, m_idCol, m_energyCol, 
+			      m_ribbon_act_dist, m_ribbon_act_dist_id, acdIntersections);
+	// ownership handed to TDS, clear local copy
+	acdIntersections.clear();
         sc = eventSvc()->registerObject(EventModel::AcdRecon::Event, acdRecon);
         if (sc.isFailure()) {
             log << "Failed to register AcdRecon" << endreq;
