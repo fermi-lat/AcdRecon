@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.35 2005/09/28 20:20:27 burnett Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.35.2.1 2005/11/02 23:39:34 echarles Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -248,16 +248,16 @@ StatusCode AcdReconAlg::reconstruct (const Event::AcdDigiCol& digiCol) {
         if (log.isActive()) log.stream() << "AcdRecon data already on TDS!";
         log << endreq;
         checkAcdRecTds->clear();
-        checkAcdRecTds->init(m_totEnergy, m_tileCount, m_gammaDoca, m_doca, 
-            m_act_dist, m_minDocaId, m_rowDocaCol, m_rowActDistCol, m_idCol, m_energyCol,
-            acdIntersections, m_ribbon_act_dist, m_ribbon_act_dist_id);
+        checkAcdRecTds->init(m_totEnergy, m_totRibbonEnergy, m_tileCount, m_ribbonCount, m_gammaDoca, m_doca, 
+	    m_minDocaId,  m_act_dist, m_maxActDistId, m_rowDocaCol, m_rowActDistCol, m_idCol, m_energyCol,
+	    acdIntersections, m_ribbon_act_dist, m_ribbon_act_dist_id);
 	// ownership handed to TDS, clear local copy
 	acdIntersections.clear();
     } else {
         // create the TDS location for the AcdRecon
         Event::AcdRecon *acdRecon = 
-	  new Event::AcdRecon(m_totEnergy, m_tileCount, m_gammaDoca, m_doca, 
-			      m_act_dist, m_minDocaId, m_rowDocaCol, m_rowActDistCol, m_idCol, m_energyCol, 
+	  new Event::AcdRecon(m_totEnergy, m_totRibbonEnergy, m_tileCount, m_ribbonCount, m_gammaDoca, m_doca, 
+			      m_minDocaId, m_act_dist, m_maxActDistId, m_rowDocaCol, m_rowActDistCol, m_idCol, m_energyCol, 
 			      m_ribbon_act_dist, m_ribbon_act_dist_id, acdIntersections);
 	// ownership handed to TDS, clear local copy
 	acdIntersections.clear();
