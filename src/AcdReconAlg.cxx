@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.40 2005/11/09 01:06:45 heather Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.41 2005/11/09 07:10:39 heather Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -40,7 +40,10 @@ unsigned int AcdReconAlg::s_numSideRows;
 // Rogue value returned for DOCAs and Active Dist. calcs. when not Tile present
 static double maxDoca = 2000.0;
 
+//------------------------------------------------------------------------
 
+static const AlgFactory<AcdReconAlg>  Factory;
+const IAlgFactory& AcdReconAlgFactory = Factory;
 
 // Algorithm parameters which can be set at run time must be declared.
 // This should be done in the constructor
