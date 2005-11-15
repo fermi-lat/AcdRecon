@@ -2,7 +2,7 @@
 //
 // Job options file for AcdRecon test
 // 
-// $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/test/jobOptions.txt,v 1.8 2005/11/04 09:07:20 heather Exp $
+// $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/test/jobOptions.txt,v 1.9 2005/11/09 01:06:46 heather Exp $
 
 //  -------------- basic Glast/Gaudi run enviornment -----------
 ApplicationMgr.DLLs = { "GlastSvc", "AcdRecon", "RootIo", "TkrUtil", "AcdUtil",
@@ -35,6 +35,8 @@ reconRootReaderAlg.reconRootFile = "$ROOTTESTDATAROOT/data/vertical_surface_muon
 MessageSvc.OutputLevel      = 2;
 
 ApplicationMgr.EvtMax =10;
+
+AcdReconAlg.intersectionToolName = "";
 
 //==============================================================
 //

@@ -40,7 +40,7 @@
  *
  * @author Heather Kelly
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.15 2005/11/03 19:41:59 echarles Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.16 2005/11/09 01:06:45 heather Exp $
  */
 class AcdReconAlg : public Algorithm
 {
@@ -102,7 +102,7 @@ class AcdReconAlg : public Algorithm
       AcdITkrIntersectTool* m_intersectionTool;
 
       /// name of Tool for finding last layer energy leakage
-      StringProperty m_intersectionToolName;
+      std::string m_intersectionToolName;
 
       /// variables to store instrument parameters
       static double s_vetoThresholdMeV;
