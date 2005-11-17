@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.43 2005/11/15 08:53:37 heather Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.44 2005/11/17 21:04:35 heather Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -229,9 +229,14 @@ StatusCode AcdReconAlg::reconstruct (const Event::AcdDigiCol& digiCol) {
         idents::AcdId id = (*acdDigiIt)->getId();
 
 	// caculate the hitMask and stick it in the map
-	unsigned char hitMask = 1;
-	hitMask |= (*acdDigiIt)->getVeto(Event::AcdDigi::A) ? 2 : 0;
+	unsigned char hitMask = 0;
+	
+	hitMask |= (*acdDigiIt)->getAcceptMapBit(Event::AcdDigi::A) ? 1 : 0;
+	hitMask |= (*acdDigiIt)->getAcceptMapBit(Event::AcdDigi::B) ? 2 : 0;
 	hitMask |= (*acdDigiIt)->getVeto(Event::AcdDigi::A) ? 4 : 0;
+	hitMask |= (*acdDigiIt)->getVeto(Event::AcdDigi::B) ? 8 : 0;
+	hitMask |= (*acdDigiIt)->getCno(Event::AcdDigi::A) ? 16 : 0;
+	hitMask |= (*acdDigiIt)->getCno(Event::AcdDigi::B) ? 32 : 0;	
 	m_hitMap[id] = hitMask;
 
         if (id.tile()) {
