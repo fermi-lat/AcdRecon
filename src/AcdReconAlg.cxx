@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.42 2005/11/10 15:40:54 burnett Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.43 2005/11/15 08:53:37 heather Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -194,6 +194,14 @@ void AcdReconAlg::clear() {
     m_cornerDoca = maxDoca;
 
     m_hitMap.clear();
+
+    idents::AcdId resetId;
+    resetId.na(1);
+    m_minDocaId = resetId;
+    m_ribbon_act_dist_id = resetId;
+    m_maxActDistId = resetId;
+    m_maxActDist3DId = resetId;
+
 }
 
 
