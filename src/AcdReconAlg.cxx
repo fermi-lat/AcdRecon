@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.44 2005/11/17 21:04:35 heather Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.45 2005/11/17 23:29:39 echarles Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -55,9 +55,6 @@ Algorithm(name, pSvcLocator) {
 
 StatusCode AcdReconAlg::initialize ( ) {
     StatusCode sc = StatusCode::SUCCESS;
-	
-    MsgStream log(msgSvc(), name());
-    log << MSG::INFO << "initialize" << endreq;
     
     // Use the Job options service to set the Algorithm's parameters
     // This will retrieve parameters set in the job options file
@@ -70,6 +67,7 @@ StatusCode AcdReconAlg::initialize ( ) {
     }
 	
     if( sc.isFailure() ) {
+        MsgStream log(msgSvc(), name());
         log << MSG::ERROR << "AcdReconAlg failed to get the GlastDetSvc" << endreq;
         return sc;
     }
@@ -79,6 +77,7 @@ StatusCode AcdReconAlg::initialize ( ) {
         sc = m_acdGeoSvc->queryInterface(IID_IAcdGeometrySvc, (void**)&m_acdGeoSvc);
     }
     if (sc.isFailure()) {
+        MsgStream log(msgSvc(), name());
         log << MSG::ERROR << "AcdReconAlg failed to get the AcdGeometerySvc" 
             << endreq;
         return sc;
@@ -88,6 +87,7 @@ StatusCode AcdReconAlg::initialize ( ) {
     m_calcCornerDoca = true;
     sc = m_acdGeoSvc->findCornerGaps();
     if (sc.isFailure()) {
+        MsgStream log(msgSvc(), name());
         log << MSG::WARNING << "Could not construct corner gap rays,"
             << " will not calculate AcdCornerDoca" << endreq;
         m_calcCornerDoca = false;
@@ -99,6 +99,7 @@ StatusCode AcdReconAlg::initialize ( ) {
     else {
         sc = toolSvc()->retrieveTool(m_intersectionToolName,  m_intersectionTool);
         if (sc.isFailure() ) {
+            MsgStream log(msgSvc(), name());
             log << MSG::ERROR << "  Unable to create " << m_intersectionToolName << endreq;
             return sc;
         }
@@ -288,7 +289,10 @@ StatusCode AcdReconAlg::reconstruct (const Event::AcdDigiCol& digiCol) {
       log << MSG::DEBUG << "No TKR Reconstruction available " << endreq;
     } else if (m_intersectionTool != 0) {
       sc = m_intersectionTool->findIntersections(trackCol,&acdIntersections,m_hitMap);
-      if ( sc.isFailure() ) return sc;
+      if ( sc.isFailure() ) {
+          log << MSG::WARNING << "AcdIntersectionTool Failed - we'll bravely carry on" << endreq;
+          sc = StatusCode::SUCCESS;
+      }
     }
 
     SmartDataPtr<Event::AcdRecon> checkAcdRecTds(eventSvc(), EventModel::AcdRecon::Event);  
@@ -343,7 +347,7 @@ StatusCode AcdReconAlg::trackDistances(const Event::AcdDigiCol& digiCol) {
     SmartDataPtr<Event::TkrTrackCol> tracksTds(eventSvc(), EventModel::TkrRecon::TkrTrackCol);
 	
     if (!tracksTds) {
-        log << MSG::INFO << "No reconstructed tracks found on the TDS" << endreq;
+        log << MSG::DEBUG << "No reconstructed tracks found on the TDS" << endreq;
         return StatusCode::SUCCESS;
     }
 	
