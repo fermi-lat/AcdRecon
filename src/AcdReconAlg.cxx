@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.45 2005/11/17 23:29:39 echarles Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.46 2005/11/23 09:06:07 heather Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -255,7 +255,7 @@ StatusCode AcdReconAlg::reconstruct (const Event::AcdDigiCol& digiCol) {
         // Temporarily populate reconstructed energy collection with digi energy
         m_idCol.push_back(id);
         m_energyCol.push_back(tileEnergy);
-        } else { // otherwise this is a ribbon
+        } else if (id.ribbon()) { // otherwise this is a ribbon
             m_ribbonCount++;
             m_totRibbonEnergy += (*acdDigiIt)->getEnergy();
             m_idRibbonCol.push_back(id);
@@ -418,6 +418,7 @@ StatusCode AcdReconAlg::doca(const Event::AcdDigiCol& digiCol,
     for (acdDigiIt = digiCol.begin(); acdDigiIt != digiCol.end(); acdDigiIt++) {
          idents::AcdId acdId = (*acdDigiIt)->getId();
          if (acdId.ribbon()) continue;
+         if (!acdId.tile()) continue;
 
         // toss out hits below threshold -- OLD
         // if ((*acdDigiIt)->getEnergy() < s_vetoThresholdMeV) continue;
@@ -477,6 +478,7 @@ StatusCode AcdReconAlg::hitTileDist(const Event::AcdDigiCol& digiCol,
     for (acdDigiIt = digiCol.begin(); acdDigiIt != digiCol.end(); acdDigiIt++) {
         idents::AcdId acdId = (*acdDigiIt)->getId();
         if (acdId.ribbon()) continue;
+        if (!acdId.tile()) continue;
 
         // toss out hits below threshold -- OLD
         // if ((*acdDigiIt)->getEnergy() < s_vetoThresholdMeV) continue; 
@@ -588,6 +590,7 @@ StatusCode AcdReconAlg::tileActDist(const Event::AcdDigiCol& digiCol,
     for (acdDigiIt = digiCol.begin(); acdDigiIt != digiCol.end(); acdDigiIt++) {
         idents::AcdId acdId = (*acdDigiIt)->getId();
         if (acdId.ribbon()) continue;
+        if (!acdId.tile()) continue;
 
         // toss out hits below threshold -- OLD
         // if ((*acdDigiIt)->getEnergy() < s_vetoThresholdMeV) continue; 
@@ -838,7 +841,7 @@ StatusCode AcdReconAlg::hitRibbonDist(const Event::AcdDigiCol& digiCol, const He
     for (acdDigiIt = digiCol.begin(); acdDigiIt != digiCol.end(); acdDigiIt++) {
         idents::AcdId acdId = (*acdDigiIt)->getId();
         // if a tile - skip we want ribbons
-        if (acdId.tile()) continue;
+        if (!acdId.ribbon()) continue;
 #if 0 //THB: for analysis, as opposed to a hardware veto, we want to see *all* ribbons with signals
         if ( (!(*acdDigiIt)->getVeto(Event::AcdDigi::A)) && (!(*acdDigiIt)->getVeto(Event::AcdDigi::B)) ) continue; 
 #endif

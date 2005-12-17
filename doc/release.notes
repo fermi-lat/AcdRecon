@@ -4,6 +4,7 @@ package manager:H.Kelly
 
 @verbatim
 
+v1r12p6em0 16-Dec-2005 HMK Patch to AcdReconAlg to ignore NA ACDs
 v1r12p6   23-Nov-2005 HMK Eric's patch to catch negative arclengths in 
           AcdTkrIntersectionTool and update to AcdReconAlg to avoid returning
           failure to gaudi if that tool fails.
