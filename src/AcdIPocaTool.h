@@ -19,7 +19,7 @@ class AcdRibbonDim;
 *
 * Base class for clustering tools
 *
-* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdIPocaTool.h,v 1.2 2005/11/03 19:41:59 echarles Exp $
+* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdIPocaTool.h,v 1.1 2006/01/09 23:04:20 echarles Exp $
 */
 
 static const InterfaceID IID_AcdIPocaTool("AcdIPocaTool",1,0) ;
@@ -82,7 +82,8 @@ public:
 				   PocaData& data) = 0;
 
   // @brief Make an AcdTrkPoca object, given the PocaData and the G4Propagator
-  virtual StatusCode makePoca(const Event::TkrTrack& track, const PocaData& poca, const idents::AcdId& acdId,
+  virtual StatusCode makePoca(const Event::TkrTrack& track, int iTrack, 
+			      const PocaData& poca, const idents::AcdId& acdId,
 			      IPropagator& g4PropTool, Event::AcdTkrPoca*& pocaCol) = 0;
 
 } ;
