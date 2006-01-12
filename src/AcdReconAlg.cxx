@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.48 2006/01/09 23:04:20 echarles Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.49 2006/01/10 02:23:02 echarles Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -13,11 +13,8 @@
 
 #include "AcdPocaTool.h"
 
-//#include "AcdUtil/AcdTileDim.h"
-//#include "AcdUtil/AcdRibbonDim.h"
-
-#include "./AcdTileDim.h"
-#include "./AcdRibbonDim.h"
+#include "AcdUtil/AcdTileDim.h"
+#include "AcdUtil/AcdRibbonDim.h"
 
 #include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/AlgFactory.h"
