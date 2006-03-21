@@ -1,5 +1,5 @@
 // File and Version Information:
-// $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.8 2003/10/20 23:33:54 heather Exp $
+// $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.9.6.1 2006/01/31 19:36:34 usher Exp $
 // Description:
 // Handles the display of the ACD DOCA values on the GUI.
 
@@ -16,6 +16,11 @@
 
 #include "GlastSvc/GlastDetSvc/IGlastDetSvc.h"
 #include "CLHEP/Geometry/Point3D.h"
+// TU: Hacks for CLHEP 1.9.2.2 and beyond
+#ifndef HepPoint3D
+typedef HepGeom::Point3D<double> HepPoint3D;
+#endif
+#include "CLHEP/Geometry/Transform3D.h"
 
 // gui, display includes
 #include "GuiSvc/IGuiSvc.h"
@@ -26,7 +31,7 @@
  * @brief Display the ACD DOCA's as numbers at the tile center positions
  *
  * @author Heather Kelly
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.8 2003/10/20 23:33:54 heather Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.9.6.1 2006/01/31 19:36:34 usher Exp $
  */
 
 
@@ -102,7 +107,7 @@ public:
         const idents::VolumeIdentifier volid = id.volId();
 
         HepPoint3D tilecenter;
-        HepTransform3D transform;
+        HepGeom::Transform3D transform;
 
         StatusCode sc = m_detsvc->getTransform3DByID(volid, &transform);
         if(sc.isSuccess()) tilecenter = transform*tilecenter;
