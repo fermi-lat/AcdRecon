@@ -4,19 +4,29 @@
 
 #include "GaudiKernel/IAlgTool.h"
 #include "Event/Recon/TkrRecon/TkrTrack.h"
+#include "Event/Recon/TkrRecon/TkrTrackParams.h"
 #include "Event/Recon/AcdRecon/AcdTkrIntersection.h"
+#include "Event/Recon/AcdRecon/AcdTkrGapPoca.h"
+#include "Event/Recon/AcdRecon/AcdTkrPoint.h"
+#include <vector>
+
+#include "../AcdRecon/AcdReconStruct.h"
+
+class IPropagator;
+class AcdGeomMap;
 
 /**   
 * @class AcdITkrIntersectTool
 *
 * Base class for clustering tools
 *
-* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/Attic/AcdITkrIntersectTool.h,v 1.1.2.1 2005/11/02 23:39:34 echarles Exp $
+* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdITkrIntersectTool.h,v 1.2 2005/11/03 19:41:59 echarles Exp $
 */
 
 static const InterfaceID IID_AcdITkrIntersectTool("AcdITkrIntersectTool",1,0) ;
 
 class AcdITkrIntersectTool : virtual public IAlgTool {
+
 
  public:
   
@@ -27,10 +37,25 @@ class AcdITkrIntersectTool : virtual public IAlgTool {
   AcdITkrIntersectTool() {}
   virtual ~AcdITkrIntersectTool() {}
   
-  //! main method
-  virtual StatusCode findIntersections ( const Event::TkrTrackCol *,
-					 Event::AcdTkrIntersectionCol *,
-					 std::map<idents::AcdId,unsigned char>& ) =0 ;
+  // @brief main method
+  virtual StatusCode makeIntersections(IPropagator& prop,
+				       const AcdRecon::TrackData& track,
+				       const AcdRecon::ExitData& data,	
+				       const AcdRecon::PocaDataPtrMap& pocaMap,
+				       const AcdRecon::AcdHitMap& hitMap,
+				       AcdGeomMap& geomMap,
+				       Event::AcdTkrIntersectionCol& intersections,
+				       Event::AcdTkrGapPocaCol& gapPocas) = 0;
+
+  // @brief calculate the arclength at which a track exits the tracking volume
+  virtual StatusCode exitsLAT(const Event::TkrTrack& track, bool forward,
+			      AcdRecon::ExitData& data) = 0;
+
+  // @brief make the TDS object that states where the track left the ACD
+  virtual StatusCode makeTkrPoint(const AcdRecon::TrackData& track, const AcdRecon::ExitData& data,
+				  const Event::TkrTrackParams& params, Event::AcdTkrPoint*& tkrPoint ) = 0;
+
+
 } ;
 
 #endif
