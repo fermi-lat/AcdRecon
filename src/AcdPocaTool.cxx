@@ -141,7 +141,7 @@ StatusCode AcdPocaTool::makePoca(const AcdRecon::TrackData& aTrack,
   localCov[0][1] = localCov[1][0] = pocaData.m_localCovXY;
   float distance = pocaData.m_active2D > 0 ? pocaData.m_active2D : pocaData.m_active3D;
 
-  if ( true ) {
+  if ( false ) {
     double localXErr = pocaData.m_localCovXX > 0. ? sqrt(pocaData.m_localCovXX) : 0;
     double localYErr = pocaData.m_localCovYY > 0. ? sqrt(pocaData.m_localCovYY) : 0.;
     double correl =  pocaData.m_localCovXY / ( localXErr * localYErr );          

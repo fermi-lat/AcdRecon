@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.51 2006/01/20 00:06:32 echarles Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.51.2.1 2006/04/05 02:22:57 echarles Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -422,8 +422,8 @@ StatusCode AcdReconAlg::trackDistances(const Event::AcdDigiCol& digiCol,
         const Event::TkrTrack* trackTds  = *trkPtr++;       // The TDS track
 	iTrack++;
 
-	std::cout << std::endl;
-	std::cout << "Next Track " << iTrack << std::endl;
+	//std::cout << std::endl;
+	//std::cout << "Next Track " << iTrack << std::endl;
 
 	// grap the track direction information
 	const Event::TkrTrackHit* firstHit = (*trackTds)[0];
@@ -505,7 +505,7 @@ StatusCode AcdReconAlg::trackDistances(const Event::AcdDigiCol& digiCol,
 	  gapPocas.push_back(*itrGU);
 	}
 
-	std::cout << std::endl;
+	//std::cout << std::endl;
 
 	// extrapolate the track downwards
 	sc = extrapolateTrack(*trackTds, downwardExtend, downPocasCut, downwardExit, 
@@ -532,7 +532,7 @@ StatusCode AcdReconAlg::trackDistances(const Event::AcdDigiCol& digiCol,
                           -(trackTds->getInitialDirection()), m_cornerDoca);
             // First track in the list, is the reconstructed gamma
             firstPassDone = true;
-	    std::cout << "CornerDoca: " << m_cornerDoca << std::endl;
+	    //std::cout << "CornerDoca: " << m_cornerDoca << std::endl;
             log << MSG::DEBUG << "AcdCornerDoca = " << m_cornerDoca << endreq;
         }
     }

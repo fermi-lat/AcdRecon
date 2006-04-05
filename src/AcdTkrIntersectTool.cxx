@@ -174,7 +174,7 @@ StatusCode  AcdTkrIntersectTool::makeIntersections(IPropagator& prop,
     }
         
     // This is just a printout
-    if ( true ) {
+    if ( false ) {
       double localXErr = pocaData->m_localCovXX > 0. ? sqrt(pocaData->m_localCovXX) : 0;
       double localYErr = pocaData->m_localCovYY > 0. ? sqrt(pocaData->m_localCovYY) : 0.;
       double correl =  pocaData->m_localCovXY / ( localXErr * localYErr );          
@@ -312,7 +312,7 @@ StatusCode AcdTkrIntersectTool::exitsLAT(const Event::TkrTrack& aTrack, bool upw
   // flip the sign of the arclength for downgoing side
   data.m_arcLength *= upward ? 1. : -1.;
 
-  if ( true ) {
+  if ( false ) {
     std::cout << "Exits: " << data.m_face << ' ' << data.m_arcLength
 	      << " [" << data.m_x.x() << ',' << data.m_x.y() << ',' << data.m_x.z() << "] "
 	      << std::endl;
@@ -420,7 +420,7 @@ StatusCode AcdTkrIntersectTool::fallbackToNominal(const AcdRecon::TrackData& tra
 
   idents::AcdGapId gapId(gapType,gapIndex,data.m_face,row,col);
 
-  if ( true ) {
+  if ( false ) {
     std::cout << "ToGap: [" << data.m_x.x() << ' ' <<  data.m_x.y() << ' ' <<  data.m_x.z() << "] " 
 	      << gapType << ' ' << data.m_face << ' ' << gapIndex << ' ' << maxDoca << std::endl;
   }
@@ -494,7 +494,7 @@ StatusCode AcdTkrIntersectTool::gapPocaTile(const AcdRecon::TrackData& track, co
   if ( face != 0 && row == 3 ) {
     gapType = AcdRecon::SideCornerEdge;
     if ( pocaData.m_localX > 0 ) { gap = 1; }    
-    std::cout << row << ' ' << col << ' ' << gap << std::endl;
+    // std::cout << row << ' ' << col << ' ' << gap << std::endl;
   } else {
     if ( pocaData.m_localX > 0 ) { col++; }
     if ( pocaData.m_localY > 0 ) { row++; }
@@ -549,7 +549,7 @@ StatusCode AcdTkrIntersectTool::makeGapPoca(idents::AcdGapId& gapId, const AcdRe
   localCov[1][1] = pocaData.m_localCovYY;
   localCov[0][1] = localCov[1][0] = pocaData.m_localCovXY;
 
-  if ( true ) {
+  if ( false ) {
     double localXErr = pocaData.m_localCovXX > 0. ? sqrt(pocaData.m_localCovXX) : 0;
     double localYErr = pocaData.m_localCovYY > 0. ? sqrt(pocaData.m_localCovYY) : 0.;
     double correl =  pocaData.m_localCovXY / ( localXErr * localYErr );          
