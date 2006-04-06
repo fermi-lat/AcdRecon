@@ -169,8 +169,8 @@ StatusCode  AcdTkrIntersectTool::makeIntersections(IPropagator& prop,
     AcdRecon::projectToPlane(track,next_params,face,xT,*pocaData);
 
     if ( acdId.ribbon() ) {
-      // cull out the top x - ribbons
-      if ( face != 0 || acdId.ribbonOrientation() != 6 ) {
+      // cull out the top Y - ribbons
+      if ( face != 0 || acdId.ribbonOrientation() != 5 ) {
 	ribbonDataForGap = pocaData;
       }
     } else if ( acdId.tile() ) {
@@ -219,10 +219,10 @@ StatusCode  AcdTkrIntersectTool::makeIntersections(IPropagator& prop,
     intersections.push_back(iSect);
   }
 
-  if ( ribbonDataForGap != 0 ) {
-    gapPocaRibbon(track,data,*ribbonDataForGap,gapPocas);
-  } else if ( tileDataForGap != 0 ) {
+  if ( tileDataForGap != 0 ) {
     gapPocaTile(track,data,*tileDataForGap,gapPocas);
+  } else if ( ribbonDataForGap != 0 ) {
+    gapPocaRibbon(track,data,*ribbonDataForGap,gapPocas);
   } else {
     fallbackToNominal(track,data,gapPocas);
   } 
