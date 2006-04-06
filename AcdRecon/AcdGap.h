@@ -4,11 +4,11 @@
 namespace AcdRecon {
 
   typedef enum { None=0, 
-		 SideCornerEdge=1,   
-		 TopCornerEdge=2,
-		 X_RibbonSide=3, 
-		 Y_RibbonSide=4, 
-		 Y_RibbonTop=5,
+		 X_RibbonSide=1,
+		 Y_RibbonSide=2, 
+		 Y_RibbonTop=3,
+		 SideCornerEdge=4,
+		 TopCornerEdge=5,
 		 TileHole=6,
 		 NumGapTypes } AcdGapType;
 
