@@ -141,19 +141,6 @@ StatusCode AcdPocaTool::makePoca(const AcdRecon::TrackData& aTrack,
   localCov[0][1] = localCov[1][0] = pocaData.m_localCovXY;
   float distance = pocaData.m_active2D > 0 ? pocaData.m_active2D : pocaData.m_active3D;
 
-  if ( false ) {
-    double localXErr = pocaData.m_localCovXX > 0. ? sqrt(pocaData.m_localCovXX) : 0;
-    double localYErr = pocaData.m_localCovYY > 0. ? sqrt(pocaData.m_localCovYY) : 0.;
-    double correl =  pocaData.m_localCovXY / ( localXErr * localYErr );          
-
-    std::cout << "A Poca: " << acdId.id() << ' ' << arcLength << ' ' << distance << " [" 
-	      << pocaData.m_poca.x() << ',' << pocaData.m_poca.y() << ',' << pocaData.m_poca.z() << "] {"
-	      << local[0] << ',' << local[1] << "} <"
-	      << localXErr << ',' << localYErr << ',' << correl << "> |"
-	      << pocaData.m_pocaVector.x() << ',' << pocaData.m_pocaVector.y() << ',' << pocaData.m_pocaVector.z() << "| "
-	      << pocaData.m_region << std::endl;    
-  }
-
   // temp storage
   static Event::AcdTkrLocalCoords localCoords;
   static Event::AcdPocaData pd;

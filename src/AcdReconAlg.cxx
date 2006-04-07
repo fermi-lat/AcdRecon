@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.51.2.1 2006/04/05 02:22:57 echarles Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.51.2.2 2006/04/05 03:25:00 echarles Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -442,10 +442,12 @@ StatusCode AcdReconAlg::trackDistances(const Event::AcdDigiCol& digiCol,
 	downwardExtend.m_upward = false;
 
 	// get the LAT exit points
-	sc = m_intersectionTool->exitsLAT(*trackTds,true,upwardExit);
-	if (sc.isFailure()) return sc;
-	sc = m_intersectionTool->exitsLAT(*trackTds,false,downwardExit);
-	if (sc.isFailure()) return sc;
+	if ( m_intersectionTool != 0 ) {
+	  sc = m_intersectionTool->exitsLAT(*trackTds,true,upwardExit);
+	  if (sc.isFailure()) return sc;
+	  sc = m_intersectionTool->exitsLAT(*trackTds,false,downwardExit);
+	  if (sc.isFailure()) return sc;
+	}	  
 
 	// keep track of all the pocas to hit tiles
 	AcdRecon::PocaDataMap upwardPocas;
@@ -478,11 +480,13 @@ StatusCode AcdReconAlg::trackDistances(const Event::AcdDigiCol& digiCol,
 	AcdRecon::PocaDataPtrMap upPocasCut;
 	AcdRecon::PocaDataPtrMap downPocasCut;
 
-	sc = m_pocaTool->filter(upwardPocas,upPocasCut);
-	if (sc.isFailure()) return sc;
-
-	sc = m_pocaTool->filter(downwardPocas,downPocasCut);
-	if (sc.isFailure()) return sc;
+	if ( m_pocaTool != 0 ) {
+	  sc = m_pocaTool->filter(upwardPocas,upPocasCut);
+	  if (sc.isFailure()) return sc;
+	  
+	  sc = m_pocaTool->filter(downwardPocas,downPocasCut);
+	  if (sc.isFailure()) return sc;
+	}
 
 	// Now extrapolate the track as far as needed, 
 	// this makes the AcdTkrPoca and AcdTkrIntersection objects
@@ -570,7 +574,9 @@ StatusCode AcdReconAlg::hitDistances(const AcdRecon::TrackData& aTrack, const Ev
 	log << MSG::ERROR << "Failed to get geom for a tile " << acdId.id() << endreq;
 	return sc;
       }
-      sc = m_pocaTool->tileDistances(*tileDim,aTrack,pocaData);
+      if ( m_pocaTool != 0 ) {
+	sc = m_pocaTool->tileDistances(*tileDim,aTrack,pocaData);
+      }
       if ( sc.isFailure() ) {
 	log << MSG::ERROR << "Failed to get hit distances for a tile" << acdId.id() << endreq;
 	return sc;
@@ -582,7 +588,9 @@ StatusCode AcdReconAlg::hitDistances(const AcdRecon::TrackData& aTrack, const Ev
 	log << MSG::ERROR << "Failed to get geom for a tile " << acdId.id() << endreq;
 	return sc;
       }
-      sc = m_pocaTool->ribbonDistances(*ribbonDim,aTrack,pocaData);
+      if ( m_pocaTool != 0 ) {
+	sc = m_pocaTool->ribbonDistances(*ribbonDim,aTrack,pocaData);
+      }
       if ( sc.isFailure() ) {
 	log << MSG::ERROR << "Failed to get hit distances for a ribbon" << acdId.id() << endreq;
 	return sc;
@@ -802,9 +810,15 @@ StatusCode AcdReconAlg::extrapolateTrack(const Event::TkrTrack& aTrack,
   m_G4PropTool->step(maxArcLength);  
   
   // build all the intersections
-  sc = m_intersectionTool->makeIntersections(*m_G4PropTool,trackData,isectData,pocaDataMap,m_hitMap,m_geomMap,
-					     acdIntersections,gapPocas);
+  if ( m_intersectionTool != 0 ) {
+    sc = m_intersectionTool->makeIntersections(*m_G4PropTool,trackData,isectData,pocaDataMap,m_hitMap,m_geomMap,
+					       acdIntersections,gapPocas);
+  }
   if ( sc.isFailure() ) return sc;
+
+  
+  acdIntersections.writeOut(log);
+  gapPocas.writeOut(log);
 
   // build all the pocas
   for ( itr = pocaDataMap.begin(); itr != pocaDataMap.end(); itr++ ) {
@@ -813,16 +827,27 @@ StatusCode AcdReconAlg::extrapolateTrack(const Event::TkrTrack& aTrack,
     Event::TkrTrackParams next_params = m_G4PropTool->getTrackParams(pocaArcLength,startEnergy,true);
     AcdRecon::projectErrorAtPoca(trackData,next_params,pocaData.m_poca,pocaData.m_pocaVector,pocaData.m_active3DErr);
     Event::AcdTkrHitPoca* aPoca(0);
-    sc = m_pocaTool->makePoca(trackData,pocaData,aPoca);
+    if ( m_pocaTool != 0 ) {
+      sc = m_pocaTool->makePoca(trackData,pocaData,aPoca);
+    }
     if ( sc.isFailure() ) return sc;
-    if ( aPoca != 0 ) pocaSet.insert(aPoca);
+    if ( aPoca != 0 ) {
+      aPoca->writeOut(log);
+      pocaSet.insert(aPoca);
+    }
   }
 
   // build the TrkPoint
   Event::TkrTrackParams next_params = m_G4PropTool->getTrackParams(isectData.m_arcLength,startEnergy,true);
   Event::AcdTkrPoint* exitPoint(0);
-  m_intersectionTool->makeTkrPoint(trackData,isectData,next_params,exitPoint);
-  points.push_back(exitPoint);
+  if ( m_intersectionTool != 0 ) {
+    sc = m_intersectionTool->makeTkrPoint(trackData,isectData,next_params,exitPoint);
+    if ( sc.isFailure() ) return sc;
+    if ( exitPoint != 0 ) {
+      exitPoint->writeOut(log);
+      points.push_back(exitPoint);      
+    }
+  }
 
   return sc;
 

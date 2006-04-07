@@ -181,20 +181,6 @@ StatusCode  AcdTkrIntersectTool::makeIntersections(IPropagator& prop,
       }    
     }
         
-    // This is just a printout
-    if ( false ) {
-      double localXErr = pocaData->m_localCovXX > 0. ? sqrt(pocaData->m_localCovXX) : 0;
-      double localYErr = pocaData->m_localCovYY > 0. ? sqrt(pocaData->m_localCovYY) : 0.;
-      double correl =  pocaData->m_localCovXY / ( localXErr * localYErr );          
-      std::cout << "ISect: " << acdId.id() << ' ' << (forward ? arcLength : -1.*arcLength)
-		<< " [" << x_step.x() << ',' << x_step.y() << ',' << x_step.z() 
-		<< "] {" << pocaData->m_localX << ',' << pocaData->m_localY << "} " 
-		<< pathLength << ' ' << pocaData->m_cosTheta 
-		<< " <" << localXErr << ',' << localYErr << ',' << correl << "> "
-		<< istep << ' ' << (int)(hitMask)
-		<< std::endl;
-    } 
-
     HepMatrix localCovMatrix(2,2);
     localCovMatrix[0][0] = pocaData->m_localCovXX;
     localCovMatrix[1][1] = pocaData->m_localCovYY;
@@ -320,12 +306,6 @@ StatusCode AcdTkrIntersectTool::exitsLAT(const Event::TkrTrack& aTrack, bool upw
   // flip the sign of the arclength for downgoing side
   data.m_arcLength *= upward ? 1. : -1.;
 
-  if ( false ) {
-    std::cout << "Exits: " << data.m_face << ' ' << data.m_arcLength
-	      << " [" << data.m_x.x() << ',' << data.m_x.y() << ',' << data.m_x.z() << "] "
-	      << std::endl;
-  }
-  
   return StatusCode::SUCCESS;
 }
  
@@ -502,7 +482,6 @@ StatusCode AcdTkrIntersectTool::gapPocaTile(const AcdRecon::TrackData& track, co
   if ( face != 0 && row == 3 ) {
     gapType = AcdRecon::SideCornerEdge;
     if ( pocaData.m_localX > 0 ) { gap = 1; }    
-    // std::cout << row << ' ' << col << ' ' << gap << std::endl;
   } else {
     if ( pocaData.m_localX > 0 ) { col++; }
     if ( pocaData.m_localY > 0 ) { row++; }
@@ -557,18 +536,6 @@ StatusCode AcdTkrIntersectTool::makeGapPoca(idents::AcdGapId& gapId, const AcdRe
   localCov[1][1] = pocaData.m_localCovYY;
   localCov[0][1] = localCov[1][0] = pocaData.m_localCovXY;
 
-  if ( false ) {
-    double localXErr = pocaData.m_localCovXX > 0. ? sqrt(pocaData.m_localCovXX) : 0;
-    double localYErr = pocaData.m_localCovYY > 0. ? sqrt(pocaData.m_localCovYY) : 0.;
-    double correl =  pocaData.m_localCovXY / ( localXErr * localYErr );          
-
-    std::cout << "A gap: " << gapId.asDecimal() << ' ' << arcLength << ' ' << distance << " [" 
-	      << pocaData.m_poca.x() << ',' << pocaData.m_poca.y() << ',' << pocaData.m_poca.z() << "] {"
-	      << local[0] << ',' << local[1] << "} <"
-	      << localXErr << ',' << localYErr << ',' << correl << "> |"
-	      << pocaData.m_pocaVector.x() << ',' << pocaData.m_pocaVector.y() << ',' << pocaData.m_pocaVector.z() << "| "
-	      << pocaData.m_region << std::endl;    
-  }
   // temp storage
   static Event::AcdTkrLocalCoords localCoords;
   static Event::AcdPocaData pd;
