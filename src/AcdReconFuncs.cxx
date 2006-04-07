@@ -211,8 +211,8 @@ namespace AcdRecon {
       int face(-1);
       switch ( segment ) {
       case 1: face = 0; break;
-      case 0: face = acdId.ribbonOrientation() == ribbonX ? 1 : 3; break;
-      case 2: face = acdId.ribbonOrientation() == ribbonX ? 2 : 4; break;
+      case 0: face = acdId.ribbonOrientation() == ribbonX ? 1 : 2; break;
+      case 2: face = acdId.ribbonOrientation() == ribbonX ? 3 : 4; break;
       }
 
       // Get the beginning and ending points for a line segment
