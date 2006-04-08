@@ -458,7 +458,7 @@ StatusCode AcdTkrIntersectTool::gapPocaRibbon(const AcdRecon::TrackData& track, 
   
   idents::AcdGapId gapId(gapType,gap,face,row,col);
 
-  double distance = pocaData.m_active3D;
+  double distance = pocaData.m_active2D;
 
   Event::AcdTkrGapPoca* poca(0);
   StatusCode sc = makeGapPoca(gapId,track,pocaData,distance,poca);
@@ -478,28 +478,33 @@ StatusCode AcdTkrIntersectTool::gapPocaTile(const AcdRecon::TrackData& track, co
   unsigned char col = (unsigned char)(pocaData.m_id.column());
   unsigned char gap = 0;
 
+  double distance(0.);
+
   // bottow side tile have gaps only at the ends
   if ( face != 0 && row == 3 ) {
     gapType = AcdRecon::SideCornerEdge;
     if ( pocaData.m_localX > 0 ) { gap = 1; }    
+    distance = -1.*pocaData.m_activeX;
   } else {
     if ( pocaData.m_localX > 0 ) { col++; }
-    if ( pocaData.m_localY > 0 ) { row++; }
-    
+    if ( pocaData.m_localY > 0 ) { row++; }    
     switch ( face ) {
     case 0:
       gapType = ( col == 0 || col == 6 ) ?  AcdRecon::TopCornerEdge : AcdRecon::Y_RibbonTop;    
       if ( pocaData.m_localY > 0 ) gap = 1;
+      distance = -1.*pocaData.m_activeY;
       break;
     case 1:
     case 3:    
       gapType = ( col == 0 || col == 6 ) ? AcdRecon::SideCornerEdge : AcdRecon::Y_RibbonSide;
       if ( pocaData.m_localX > 0 ) gap = 1;
+      distance = -1.*pocaData.m_activeX;
       break;
     case 2:
     case 4:
       gapType = ( col == 0 || col == 6 ) ? AcdRecon::SideCornerEdge : AcdRecon::X_RibbonSide;
       if ( pocaData.m_localX > 0 ) gap = 1;
+      distance = -1*.pocaData.m_activeX;
       break;
     case 5:
       return StatusCode::SUCCESS;
@@ -511,9 +516,6 @@ StatusCode AcdTkrIntersectTool::gapPocaTile(const AcdRecon::TrackData& track, co
  
   idents::AcdGapId gapId(gapType,gap,face,row,col);
  
-  // 
-  double distance = (-1.)*pocaData.m_active3D;
-
   Event::AcdTkrGapPoca* poca(0);
   StatusCode sc = makeGapPoca(gapId,track,pocaData,distance,poca);
   if ( sc.isFailure() ) return sc;
