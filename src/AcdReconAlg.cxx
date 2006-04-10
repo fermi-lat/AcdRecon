@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.51.2.2 2006/04/05 03:25:00 echarles Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.51.2.3 2006/04/07 16:44:40 echarles Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -444,9 +444,15 @@ StatusCode AcdReconAlg::trackDistances(const Event::AcdDigiCol& digiCol,
 	// get the LAT exit points
 	if ( m_intersectionTool != 0 ) {
 	  sc = m_intersectionTool->exitsLAT(*trackTds,true,upwardExit);
-	  if (sc.isFailure()) return sc;
+	  if (sc.isFailure()) {
+	    log << MSG::WARNING << "AcdIntersectionTool::exitsLat() failed on upward end - we'll bravely carry on" << endreq;
+	    return StatusCode::SUCCESS;
+	  }
 	  sc = m_intersectionTool->exitsLAT(*trackTds,false,downwardExit);
-	  if (sc.isFailure()) return sc;
+	  if (sc.isFailure()) { 
+	    log << MSG::WARNING << "AcdIntersectionTool::exitsLat() failed on downward end - we'll bravely carry on" << endreq;
+	    return StatusCode::SUCCESS;
+	  }
 	}	  
 
 	// keep track of all the pocas to hit tiles

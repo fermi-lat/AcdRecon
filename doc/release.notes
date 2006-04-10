@@ -4,6 +4,7 @@ package manager:H.Kelly
 
 @verbatim
 
+v3r0em3   1r0Apr-2006 EAC Protect against negative arclength to intersection errors
 v3r0em2   07-Apr-2006 EAC Use activeX or activeY in gaps instead of active3D to avoid problems near corners
 v3r0em1   07-Apr-2006 EAC Changed debbuging printouts to use MsgStream
 v3r0em0   07-Apr-2006 EAC Major update.  
