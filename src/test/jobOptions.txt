@@ -2,7 +2,7 @@
 //
 // Job options file for AcdRecon test
 // 
-// $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/test/jobOptions.txt,v 1.10 2005/11/15 08:53:38 heather Exp $
+// $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/test/jobOptions.txt,v 1.10.6.1 2006/04/07 16:44:41 echarles Exp $
 
 //  -------------- basic Glast/Gaudi run enviornment -----------
 ApplicationMgr.DLLs = { "GlastSvc", "AcdRecon", "RootIo", "TkrUtil", "AcdUtil",
@@ -36,7 +36,6 @@ MessageSvc.OutputLevel      = 2;
 
 ApplicationMgr.EvtMax =10;
 
-AcdReconAlg.intersectionToolName = "";
 
 //==============================================================
 //
