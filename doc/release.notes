@@ -4,7 +4,14 @@ package manager:H.Kelly
 
 @verbatim
 
-v3r0em3   1r0Apr-2006 EAC Protect against negative arclength to intersection errors
+v3r1p1    20-Apr-2006 EAC Fix bug in active distance calculation.
+v3r1      13-Apr-2006 EAC Pull in updates from branch EM-v6r070329p0, tag v3r0em3
+v2r2      12-Apr-2006 EAC Uses calibration for AcdHits
+v2r1      24-Mar-2006 HMK updates for CLHEP 1.9.2.2
+
+Along Branch EM-v6r070329p0
+v3r0em4   20-Apr-2006 EAC Fix bug in active distance calculation.
+v3r0em3   10-Apr-2006 EAC Protect against negative arclength to intersection errors
 v3r0em2   07-Apr-2006 EAC Use activeX or activeY in gaps instead of active3D to avoid problems near corners
 v3r0em1   07-Apr-2006 EAC Changed debbuging printouts to use MsgStream
 v3r0em0   07-Apr-2006 EAC Major update.  
