@@ -14,7 +14,7 @@
 *
 * Base class for clustering tools
 *
-* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdIPha2MipTool.h,v 1.1 2006/01/09 23:04:20 echarles Exp $
+* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdIPha2MipTool.h,v 1.1.2.1 2006/04/05 02:22:57 echarles Exp $
 */
 
 static const InterfaceID IID_AcdIPha2MipTool("AcdIPha2MipTool",1,0) ;
