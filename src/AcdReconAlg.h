@@ -60,7 +60,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
  *
  * @author Heather Kelly
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.19.2.1 2006/04/05 02:22:57 echarles Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.21 2006/04/14 00:42:06 echarles Exp $
  */
 class AcdReconAlg : public Algorithm
 {
@@ -97,18 +97,10 @@ class AcdReconAlg : public Algorithm
       StatusCode hitDistances(const AcdRecon::TrackData& aTrack, const Event::AcdDigiCol& digiCol, 
 			      AcdRecon::PocaDataMap& pocaMap);				  
 
-      /// Old style - distance of closest approach calculation
-      /// Finds minimum perpendicular distance from tracks to the center of the tiles
-      StatusCode doca (const AcdRecon::PocaDataMap& pocaMap,
-		       std::vector<double> &doca_values, double &minDoca, idents::AcdId& minDocaId);
-
-      /// Bill Atwood's new calculation for Active Distance
-      StatusCode hitTileDist(const AcdRecon::PocaDataMap& pocaMap,
-			     std::vector<double> &row_values, double &dist, idents::AcdId& maxActDistId);
-
       /// Bill Atwood's new calculation for Active Distance, in 3D
       StatusCode tileActDist(const AcdRecon::PocaDataMap& pocaMap,
-			     std::vector<double> &row_values, double &dist, idents::AcdId& maxActDistId);
+			     std::vector<double> &row_values, double &dist, 
+                             idents::AcdId& maxActDistId);
 
       /// Bill Atwood's new calculation for Active Distance - applied to ribbons
       StatusCode hitRibbonDist(const AcdRecon::PocaDataMap& pocaMap,
