@@ -81,25 +81,42 @@ StatusCode AcdPha2MipTool::makeAcdHit ( const Event::AcdDigi& digi,
 }
 
 bool AcdPha2MipTool::getCalibratedValues(const Event::AcdDigi& digi, float& mipsPmtA, float& mipsPmtB) const {
-  
-  // FIXME -- get these from calib DB
-  static const float pedestal = 0.;  
-  static const float mip = 1000.;       // this is in terms of counts above pedestal
-  static const unsigned short FullScale = 4096;
 
+  static const unsigned short FullScale = 4095;
+  mipsPmtA = 0.;
+  mipsPmtB = 0.;
+
+  // get calibration consts
+  float pedValA(0.), pedValB(0.);
+  float mipValA(0.), mipValB(0.);
+				 
+  if ( ! getPeds(digi.getId(),pedValA,pedValB) ) {
+    MsgStream log(msgSvc(), name());
+    log << MSG::ERROR << "Failed to get pedestals." << endreq;
+    return false;
+  }
+  if ( ! getMips(digi.getId(),mipValA,mipValB) ) {
+    MsgStream log(msgSvc(), name());
+    log << MSG::ERROR << "Failed to get gains." << endreq;
+    return false;
+  }
+     
   // do PMT A
   bool hasHitA = digi.getAcceptMapBit(Event::AcdDigi::A);
   Event::AcdDigi::Range rangeA = digi.getRange(Event::AcdDigi::A);  
-  unsigned short phaA = hasHitA ? ( rangeA == Event::AcdDigi::LOW ? digi.getPulseHeight(Event::AcdDigi::A) : FullScale ) : 0.;
-  float pedSubtracted_A = phaA -  pedestal;
-  mipsPmtA = pedSubtracted_A / mip;
-
+  unsigned short phaA = hasHitA ? ( rangeA == Event::AcdDigi::LOW ? (unsigned short)digi.getPulseHeight(Event::AcdDigi::A) : FullScale ) : 0;
+  if ( phaA != 0 && mipValA > 0. ) {
+    float pedSubtracted_A = phaA - pedValA;
+    mipsPmtA = pedSubtracted_A / mipValA;
+  }
   // do PMT B
   bool hasHitB = digi.getAcceptMapBit(Event::AcdDigi::B);
   Event::AcdDigi::Range rangeB = digi.getRange(Event::AcdDigi::B);  
-  unsigned short phaB = hasHitB ? ( rangeB == Event::AcdDigi::LOW ? digi.getPulseHeight(Event::AcdDigi::B) : FullScale ) : 0.;
-  float pedSubtracted_B = phaB -  pedestal;
-  mipsPmtB = pedSubtracted_B / mip;
+  unsigned short phaB = hasHitB ? ( rangeB == Event::AcdDigi::LOW ? (unsigned short)digi.getPulseHeight(Event::AcdDigi::B) : FullScale ) : 0;
+  if ( phaB != 0  && mipValB > 0. ) {
+    float pedSubtracted_B = phaB == 0 ? 0 : phaB - pedValB;
+    mipsPmtB = pedSubtracted_B / mipValB;
+  }
  
   return true;
 }
