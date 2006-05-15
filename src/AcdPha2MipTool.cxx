@@ -16,7 +16,10 @@ AcdPha2MipTool::AcdPha2MipTool
    const std::string & name,
    const IInterface * parent )
  : AlgTool( type, name, parent )
- { declareInterface<AcdIPha2MipTool>(this) ; }
+ { 
+   declareInterface<AcdIPha2MipTool>(this) ; 
+   declareProperty("AcdCalibSvc",    m_calibSvcName = "AcdCalibSvc");
+ }
 
 AcdPha2MipTool::~AcdPha2MipTool()
 {} 
@@ -27,6 +30,15 @@ StatusCode AcdPha2MipTool::initialize()
  {
   MsgStream log(msgSvc(), name());
   StatusCode sc = StatusCode::SUCCESS;
+
+  sc = service(m_calibSvcName, m_calibSvc, true);
+  if ( !sc.isSuccess() ) {
+    log << MSG::ERROR << "Could not get CalibDataSvc " << m_calibSvcName << endreq;
+    return sc;
+  } else {
+    log << MSG::INFO << "Got CalibDataSvc " << m_calibSvcName << endreq;
+  }
+
   log<<MSG::INFO<<"BEGIN initialize()"<<endreq ;
   
   return sc;
@@ -40,6 +52,8 @@ StatusCode AcdPha2MipTool::makeAcdHits( const Event::AcdDigiCol& digis,
   // TDS input:
   // TDS output:
 {
+
+
   MsgStream log(msgSvc(),name()) ;
 
   // loop on digis
@@ -48,6 +62,10 @@ StatusCode AcdPha2MipTool::makeAcdHits( const Event::AcdDigiCol& digis,
     const Event::AcdDigi* aDigi = *it;
     // sanity check
     if ( aDigi == 0 ) return StatusCode::FAILURE ;
+
+    // get the calibrated values
+    float mipsPmtA(0.);
+    float mipsPmtB(0.);
     
     // get the hit mask bits
     unsigned int hitMask = 0;
@@ -83,8 +101,6 @@ StatusCode AcdPha2MipTool::makeAcdHit ( const Event::AcdDigi& digi,
 bool AcdPha2MipTool::getCalibratedValues(const Event::AcdDigi& digi, float& mipsPmtA, float& mipsPmtB) const {
 
   static const unsigned short FullScale = 4095;
-  mipsPmtA = 0.;
-  mipsPmtB = 0.;
 
   // get calibration consts
   float pedValA(0.), pedValB(0.);
@@ -100,23 +116,70 @@ bool AcdPha2MipTool::getCalibratedValues(const Event::AcdDigi& digi, float& mips
     log << MSG::ERROR << "Failed to get gains." << endreq;
     return false;
   }
-     
+
   // do PMT A
   bool hasHitA = digi.getAcceptMapBit(Event::AcdDigi::A);
   Event::AcdDigi::Range rangeA = digi.getRange(Event::AcdDigi::A);  
-  unsigned short phaA = hasHitA ? ( rangeA == Event::AcdDigi::LOW ? (unsigned short)digi.getPulseHeight(Event::AcdDigi::A) : FullScale ) : 0;
-  if ( phaA != 0 && mipValA > 0. ) {
-    float pedSubtracted_A = phaA - pedValA;
+  unsigned short phaA = hasHitA ? ( rangeA == Event::AcdDigi::LOW ? digi.getPulseHeight(Event::AcdDigi::A) : FullScale ) : 0;
+  if ( phaA == 0 ) {
+    mipsPmtA = 0.;
+  } else {
+    float pedSubtracted_A = phaA -  pedValA;
     mipsPmtA = pedSubtracted_A / mipValA;
   }
+
   // do PMT B
   bool hasHitB = digi.getAcceptMapBit(Event::AcdDigi::B);
   Event::AcdDigi::Range rangeB = digi.getRange(Event::AcdDigi::B);  
-  unsigned short phaB = hasHitB ? ( rangeB == Event::AcdDigi::LOW ? (unsigned short)digi.getPulseHeight(Event::AcdDigi::B) : FullScale ) : 0;
-  if ( phaB != 0  && mipValB > 0. ) {
-    float pedSubtracted_B = phaB == 0 ? 0 : phaB - pedValB;
+  unsigned short phaB = hasHitB ? ( rangeB == Event::AcdDigi::LOW ? digi.getPulseHeight(Event::AcdDigi::B) : FullScale ) : 0;
+  if ( phaB == 0 ) {
+    mipsPmtB = 0.;
+  } else {
+    float pedSubtracted_B = phaB -  pedValB;
     mipsPmtB = pedSubtracted_B / mipValB;
+  } 
+
+  return true;
+}
+
+
+bool AcdPha2MipTool::getPeds(const idents::AcdId& id, float& valA, float& valB) const {
+  if ( m_calibSvc == 0 ) return false;  
+  CalibData::AcdPed* ped(0);
+
+  StatusCode sc = m_calibSvc->getPedestal(id,Event::AcdDigi::A,ped);
+  if ( sc.isFailure() ) {
+    return false;
   }
- 
+  valA = ped->getMean();
+
+  sc = m_calibSvc->getPedestal(id,Event::AcdDigi::B,ped);
+  if ( sc.isFailure() ) {
+    return false;
+  }
+  valB = ped->getMean();
+  
+  return true;
+}
+
+
+
+bool AcdPha2MipTool::getMips(const idents::AcdId& id, float& valA, float& valB) const {
+  if ( m_calibSvc == 0 ) return false;
+
+  CalibData::AcdGain* gain(0);
+
+  StatusCode sc = m_calibSvc->getMipPeak(id,Event::AcdDigi::A,gain);
+  if ( sc.isFailure() ) {
+    return false;
+  }
+  valA = gain->getPeak();
+  
+  sc = m_calibSvc->getMipPeak(id,Event::AcdDigi::B,gain);
+  if ( sc.isFailure() ) {
+    return false;
+  }
+  valB = gain->getPeak();
+  
   return true;
 }

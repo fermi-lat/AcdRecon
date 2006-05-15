@@ -10,6 +10,7 @@ v2r2      12-Apr-2006 EAC Uses calibration for AcdHits
 v2r1      24-Mar-2006 HMK updates for CLHEP 1.9.2.2
 
 Along Branch EM-v6r070329p0
+v3r0em8   15-May-2006 EAC Arggh fix some missing bits from v3r0em7
 v3r0em7   15-May-2006 EAC Pull back in calibration stuff, which seems to have gotten lost in v3r0em6
 v3r0em6   08-May-2006 EAC Pull in a bug fix to the AcdGap stuff 
 v3r0em5   24-Apr-2006 EAC Pull in use of AcdCalibSvc to calibration hits from main branch
