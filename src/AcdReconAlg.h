@@ -60,7 +60,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
  *
  * @author Heather Kelly
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.21 2006/04/14 00:42:06 echarles Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.22 2006/05/10 21:39:26 heather Exp $
  */
 class AcdReconAlg : public Algorithm
 {
@@ -119,6 +119,9 @@ class AcdReconAlg : public Algorithm
       StatusCode calcCornerDoca(const HepPoint3D &x0, const HepVector3D &dir,
                                 double &dist);
 
+      /// calculate stuff for the backsplash
+      StatusCode doBacksplash(const Event::AcdDigiCol& digiCol, Event::AcdSplashVarsCol& acdSplashVars);
+
       /// the tool to calculate the Track intersections w/ the ACD
       AcdITkrIntersectTool* m_intersectionTool;
 
@@ -155,6 +158,8 @@ class AcdReconAlg : public Algorithm
   
     
       bool m_calcCornerDoca;
+
+      bool m_doBackSplash;
 
       /// Number of Acd Tiles above threshold
       unsigned int m_tileCount, m_ribbonCount;
