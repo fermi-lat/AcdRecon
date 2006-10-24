@@ -20,7 +20,7 @@ class AcdGeomMap;
 *
 * Base class for clustering tools
 *
-* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdITkrIntersectTool.h,v 1.2.6.1 2006/04/05 02:22:57 echarles Exp $
+* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdITkrIntersectTool.h,v 1.3 2006/04/14 00:42:06 echarles Exp $
 */
 
 static const InterfaceID IID_AcdITkrIntersectTool("AcdITkrIntersectTool",1,0) ;
@@ -49,6 +49,10 @@ class AcdITkrIntersectTool : virtual public IAlgTool {
 
   // @brief calculate the arclength at which a track exits the tracking volume
   virtual StatusCode exitsLAT(const Event::TkrTrack& track, bool forward,
+			      AcdRecon::ExitData& data) = 0;
+
+  // @brief calculate the arclength at which a ray exits the tracking volume
+  virtual StatusCode exitsLAT(const Point& x, const Vector& v, bool upward,
 			      AcdRecon::ExitData& data) = 0;
 
   // @brief make the TDS object that states where the track left the ACD

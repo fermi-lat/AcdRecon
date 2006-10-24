@@ -60,7 +60,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
  *
  * @author Heather Kelly
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.23 2006/07/06 23:14:05 echarles Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.24 2006/10/19 21:22:45 heather Exp $
  */
 class AcdReconAlg : public Algorithm
 {
@@ -89,6 +89,11 @@ class AcdReconAlg : public Algorithm
 				Event::AcdTkrGapPocaCol& gapPocas,
 				Event::AcdTkrPointCol& exitPoints);
 
+      /// retrieves event vertex and calls the DOCA and Active Distance routines
+      StatusCode vertexDistances(const Event::AcdDigiCol& digiCol, 
+				 Event::AcdPocaSet& pocaSet,
+				 Event::AcdTkrPointCol& exitPoints);
+
       /// Calculates the point where the paritcle crosses the nominal ACD 
       StatusCode exitPoint(const AcdRecon::TrackData& aTrack, bool forward,
 			   AcdRecon::ExitData& data, double tolerance = 0.);
@@ -115,6 +120,14 @@ class AcdReconAlg : public Algorithm
 				  Event::AcdTkrIntersectionCol& acdIntersections,
 				  Event::AcdTkrGapPocaCol& gapPocas,
 				  Event::AcdTkrPointCol& points);
+
+      ///  Extrapolate & build TDS object
+      StatusCode extrapolateVertex(const AcdRecon::TrackData& trackData,
+				   const AcdRecon::PocaDataPtrMap& pocaDataMap,
+				   const AcdRecon::ExitData& isectData,
+				   Event::AcdPocaSet& pocaSet,
+				   Event::AcdTkrPointCol& points);
+
 
       StatusCode calcCornerDoca(const HepPoint3D &x0, const HepVector3D &dir,
                                 double &dist);
