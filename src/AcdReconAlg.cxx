@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.57 2006/10/19 21:22:45 heather Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.58 2006/10/24 22:15:20 echarles Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -455,7 +455,7 @@ StatusCode AcdReconAlg::trackDistances(const Event::AcdDigiCol& digiCol,
 	// grap the track direction information
 	const Event::TkrTrackHit* firstHit = (*trackTds)[0];
 	upwardExtend.m_point = firstHit->getPoint(Event::TkrTrackHit::SMOOTHED);
-	upwardExtend.m_dir   = firstHit->getDirection(Event::TkrTrackHit::SMOOTHED);
+	upwardExtend.m_dir   = -(firstHit->getDirection(Event::TkrTrackHit::SMOOTHED));
 	upwardExtend.m_energy = firstHit->getEnergy();
 	upwardExtend.m_index = iTrack;
 	upwardExtend.m_upward = true;
@@ -463,7 +463,7 @@ StatusCode AcdReconAlg::trackDistances(const Event::AcdDigiCol& digiCol,
 	const unsigned int lastHitIdx = trackTds->getNumHits() - 1;
 	const Event::TkrTrackHit* lastHit = (*trackTds)[lastHitIdx];
 	downwardExtend.m_point = lastHit->getPoint(Event::TkrTrackHit::SMOOTHED);
-	downwardExtend.m_dir   = -(lastHit->getDirection(Event::TkrTrackHit::SMOOTHED));
+	downwardExtend.m_dir   = lastHit->getDirection(Event::TkrTrackHit::SMOOTHED);
 	downwardExtend.m_energy = lastHit->getEnergy();
 	downwardExtend.m_index = iTrack;
 	downwardExtend.m_upward = false;
@@ -623,7 +623,7 @@ StatusCode AcdReconAlg::vertexDistances(const Event::AcdDigiCol& digiCol,
 
     // grap the vertex information
     upwardExtend.m_point = theVertex->getPosition();
-    upwardExtend.m_dir   = theVertex->getDirection();
+    upwardExtend.m_dir   = -(theVertex->getDirection());
     upwardExtend.m_energy = theVertex->getEnergy();
     upwardExtend.m_index = -1;
     upwardExtend.m_upward = true;
@@ -631,7 +631,7 @@ StatusCode AcdReconAlg::vertexDistances(const Event::AcdDigiCol& digiCol,
     Vector upDir(upwardExtend.m_dir.x(),upwardExtend.m_dir.y(),upwardExtend.m_dir.z());   
 
     downwardExtend.m_point = theVertex->getPosition();
-    downwardExtend.m_dir   = -(theVertex->getDirection());
+    downwardExtend.m_dir   = theVertex->getDirection();
     downwardExtend.m_energy = theVertex->getEnergy();
     downwardExtend.m_index = -1;
     downwardExtend.m_upward = false;
