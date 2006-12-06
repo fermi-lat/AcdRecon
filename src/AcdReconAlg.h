@@ -60,7 +60,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
  *
  * @author Heather Kelly
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.24 2006/10/19 21:22:45 heather Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.25 2006/10/24 22:15:20 echarles Exp $
  */
 class AcdReconAlg : public Algorithm
 {
@@ -81,6 +81,14 @@ class AcdReconAlg : public Algorithm
 
       /// routine called by execute that performs the reconstruction 
       StatusCode reconstruct (const Event::AcdDigiCol& digiCol);
+
+      /// routine called by execute that performs the on the MC side
+      StatusCode doMC(const Event::AcdDigiCol& digiCol);
+
+      /// retrieves MC particles and calls the DOCA and Active Distance routines
+      StatusCode mcDistances(const Event::AcdDigiCol& digiCol, 
+			     Event::AcdPocaSet& pocaSet,
+			     Event::AcdTkrPointCol& exitPoints);
 
       /// retrieves tracks and calls the DOCA and Active Distance routines
       StatusCode trackDistances(const Event::AcdDigiCol& digiCol, 
