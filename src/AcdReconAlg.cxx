@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.61 2007/04/23 23:46:59 echarles Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.62 2007/07/02 19:22:23 echarles Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -268,8 +268,8 @@ void AcdReconAlg::clear() {
     m_maxActDist3DId = resetId;
     m_maxActDist3DId_down = resetId;
 
-
-    m_geomMap.reset();
+    // Don't reset the map, Geometry should remain the same over the life of the job
+    //m_geomMap.reset();
 }
 
 
@@ -722,7 +722,7 @@ StatusCode AcdReconAlg::vertexDistances(const Event::AcdDigiCol& digiCol,
     downwardExtend.m_upward = false;
     Point downPoint(downwardExtend.m_point.x(),downwardExtend.m_point.y(),downwardExtend.m_point.z());
     Vector downDir(downwardExtend.m_dir.x(),downwardExtend.m_dir.y(),downwardExtend.m_dir.z());
-   
+
     // get the LAT exit points
     if ( m_intersectionTool != 0 ) {
       sc = m_intersectionTool->exitsLAT(upPoint,upDir,true,upwardExit);
@@ -806,13 +806,13 @@ StatusCode AcdReconAlg::mcDistances(const Event::AcdDigiCol& digiCol,
     extend.m_dir   = mcPart->initialFourMomentum().vect().unit();
     extend.m_energy = mcPart->initialFourMomentum().e();
     extend.m_index = -2;
-    extend.m_upward = false;
+    extend.m_upward = (extend.m_dir.z() > 0);
     Point point(extend.m_point.x(),extend.m_point.y(),extend.m_point.z());
     Vector dir(extend.m_dir.x(),extend.m_dir.y(),extend.m_dir.z());   
 
     // get the LAT exit points
     if ( m_intersectionTool != 0 ) {
-      sc = m_intersectionTool->entersLAT(point,dir,true,enter);
+      sc = m_intersectionTool->entersLAT(point,dir,extend.m_upward,enter);
       if (sc.isFailure()) {
 	log << MSG::WARNING << "AcdIntersectionTool::entersLat() failed on MC track- we'll bravely carry on" << endreq;
 	return StatusCode::SUCCESS;
