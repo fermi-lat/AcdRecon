@@ -14,7 +14,7 @@
 *
 * Base class for clustering tools
 *
-* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdIPha2MipTool.h,v 1.1.2.1 2006/04/05 02:22:57 echarles Exp $
+* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdIPha2MipTool.h,v 1.2 2006/04/14 00:42:06 echarles Exp $
 */
 
 static const InterfaceID IID_AcdIPha2MipTool("AcdIPha2MipTool",1,0) ;
@@ -42,12 +42,15 @@ public:
   
   /// @brief Make collection of hits and fill the hit map
   virtual StatusCode makeAcdHits ( const Event::AcdDigiCol&,
+				   bool periodicEvent, 
 				   Event::AcdHitCol&,
 				   AcdRecon::AcdHitMap&) = 0;
   
   /// @brief Make a single hit
   virtual StatusCode makeAcdHit ( const Event::AcdDigi&,
+				  bool periodicEvent, 
 				  Event::AcdHit*& ) = 0;
+ 
 
 } ;
 

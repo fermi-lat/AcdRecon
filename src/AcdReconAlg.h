@@ -8,6 +8,7 @@
 #include "Event/Recon/AcdRecon/AcdRecon.h"
 #include "Event/Recon/AcdRecon/AcdPocaMap.h"
 #include "Event/Recon/AcdRecon/AcdTkrGapPoca.h"
+#include "Event/Recon/AcdRecon/AcdHit.h"
 
 #include "GaudiKernel/ObjectVector.h"
 
@@ -60,7 +61,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
  *
  * @author Heather Kelly
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.26 2006/12/06 20:08:27 echarles Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.27 2007/08/22 23:22:17 echarles Exp $
  */
 class AcdReconAlg : public Algorithm
 {
@@ -84,22 +85,22 @@ class AcdReconAlg : public Algorithm
       StatusCode reconstruct (const Event::AcdDigiCol& digiCol);
 
       /// routine called by execute that performs the on the MC side
-      StatusCode doMC(const Event::AcdDigiCol& digiCol);
+      StatusCode doMC(const Event::AcdHitCol& acdHits);
 
       /// retrieves MC particles and calls the DOCA and Active Distance routines
-      StatusCode mcDistances(const Event::AcdDigiCol& digiCol, 
+      StatusCode mcDistances(const Event::AcdHitCol& acdHits, 
 			     Event::AcdPocaSet& pocaSet,
 			     Event::AcdTkrPointCol& exitPoints);
 
       /// retrieves tracks and calls the DOCA and Active Distance routines
-      StatusCode trackDistances(const Event::AcdDigiCol& digiCol, 
+      StatusCode trackDistances(const Event::AcdHitCol& acdHits, 
 				Event::AcdPocaSet& pocaSet,
 				Event::AcdTkrIntersectionCol& acdIntersections,
 				Event::AcdTkrGapPocaCol& gapPocas,
 				Event::AcdTkrPointCol& exitPoints);
 
       /// retrieves event vertex and calls the DOCA and Active Distance routines
-      StatusCode vertexDistances(const Event::AcdDigiCol& digiCol, 
+      StatusCode vertexDistances(const Event::AcdHitCol& acdHits, 
 				 Event::AcdPocaSet& pocaSet,
 				 Event::AcdTkrPointCol& exitPoints);
 
@@ -108,7 +109,7 @@ class AcdReconAlg : public Algorithm
 			   AcdRecon::ExitData& data, double tolerance = 0.);
 
       /// get the all the distances to hit tiles & ribbons for track in one direction
-      StatusCode hitDistances(const AcdRecon::TrackData& aTrack, const Event::AcdDigiCol& digiCol, 
+      StatusCode hitDistances(const AcdRecon::TrackData& aTrack, const Event::AcdHitCol& acdHits, 
 			      AcdRecon::PocaDataMap& pocaMap);				  
 
       /// Bill Atwood's new calculation for Active Distance, in 3D
