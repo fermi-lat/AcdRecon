@@ -61,7 +61,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
  *
  * @author Heather Kelly
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.27 2007/08/22 23:22:17 echarles Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.h,v 1.28 2007/08/24 22:12:27 echarles Exp $
  */
 class AcdReconAlg : public Algorithm
 {
@@ -138,6 +138,9 @@ class AcdReconAlg : public Algorithm
 				   Event::AcdPocaSet& pocaSet,
 				   Event::AcdTkrPointCol& points);
 
+      /// Write an exit point object
+      void writeExitPoint(std::ostream& os, 
+			  const AcdRecon::TrackData& trackData, const AcdRecon::ExitData& isectData);			  
 
       StatusCode calcCornerDoca(const HepPoint3D &x0, const HepVector3D &dir,
                                 double &dist);
