@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.65 2007/08/24 22:12:27 echarles Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.66 2007/09/05 01:57:05 echarles Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -983,7 +983,7 @@ StatusCode AcdReconAlg::hitDistances(const AcdRecon::TrackData& aTrack,
       const AcdRibbonDim* ribbonDim = m_geomMap->getRibbon(acdId,*m_acdGeoSvc);
       sc = ribbonDim->statusCode();
       if ( sc.isFailure() ) {
-	log << MSG::ERROR << "Failed to get geom for a tile " << acdId.id() 
+	log << MSG::ERROR << "Failed to get geom for a ribbon " << acdId.id() 
             << endreq;
 	return sc;
       }
