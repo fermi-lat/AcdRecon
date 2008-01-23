@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.66 2007/09/05 01:57:05 echarles Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.67 2007/09/05 19:05:48 echarles Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -37,11 +37,11 @@
 #include "CLHEP/Geometry/Transform3D.h"
 
 #include "AcdUtil/AcdDetectorList.h"
+#include "AcdUtil/RayDoca.h"
 
 #include "geometry/Ray.h"
 #include "geometry/Point.h"
 #include "geometry/Vector.h"
-#include "../AcdRecon/RayDoca.h"
 #include "../AcdRecon/AcdReconFuncs.h"
 #include "../AcdRecon/AcdTkrParams.h"
 
@@ -1280,7 +1280,7 @@ StatusCode AcdReconAlg::calcCornerDoca(const HepPoint3D &x0, const HepVector3D &
     for (iCorner=0; iCorner<4; iCorner++) {
         const Ray gapRay = m_acdGeoSvc->getCornerGapRay(iCorner);
         // Compute DOCA between the track and gap ray 
-        RayDoca doca = RayDoca(track, gapRay);
+        AcdUtil::RayDoca doca = AcdUtil::RayDoca(track, gapRay);
 
         // Check if x,y,z along corner gap ray falls within limits of LAT.
         // where the top is defined as the top ACD tiles and bottom is the
