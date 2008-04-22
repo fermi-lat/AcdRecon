@@ -50,7 +50,7 @@ class HepMatrix;
 *  - PHARibbonCut [0.]            : Ignore all ribbons with pedestal subtracted PHA below this valu
 *  - MIPSRibbonCut [0.]           : Ignore all ribbons with MIP equivalent below this value
 *
-* $Header: Exp $
+* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdPha2MipTool.h,v 1.6 2008/01/23 23:41:47 echarles Exp $
 */
 
 class AcdPha2MipTool : public AcdIPha2MipTool,  public AlgTool {
@@ -153,6 +153,8 @@ private:
   float m_pha_ribbon_cut;
   /// cut ribbons with MIP equivalent signal below this value
   float m_mips_ribbon_cut;
+  /// Value to use for "Ninja" hits, with no signal, but veto bit asserted
+  float m_vetoThreshold;
 
   /// Output collection
   Event::AcdHitCol* output;
