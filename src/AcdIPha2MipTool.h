@@ -20,7 +20,7 @@
  *
  * @author Eric Charles
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdIPha2MipTool.h,v 1.3 2007/08/24 22:12:27 echarles Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdIPha2MipTool.h,v 1.4 2008/01/23 23:41:47 echarles Exp $
 */
 
 static const InterfaceID IID_AcdIPha2MipTool("AcdIPha2MipTool",1,0) ;
@@ -60,6 +60,7 @@ public:
   **/
   virtual StatusCode makeAcdHits ( const Event::AcdDigiCol& digiCol,
 				   bool periodicEvent, 
+				   unsigned gemDeltaEventTime,
 				   Event::AcdHitCol& hitCol,
 				   AcdRecon::AcdHitMap& hitMap) = 0;
   

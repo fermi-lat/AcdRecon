@@ -50,7 +50,7 @@ class HepMatrix;
 *  - PHARibbonCut [0.]            : Ignore all ribbons with pedestal subtracted PHA below this valu
 *  - MIPSRibbonCut [0.]           : Ignore all ribbons with MIP equivalent below this value
 *
-* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdPha2MipTool.h,v 1.6 2008/01/23 23:41:47 echarles Exp $
+* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdPha2MipTool.h,v 1.7 2008/04/22 23:10:59 echarles Exp $
 */
 
 class AcdPha2MipTool : public AcdIPha2MipTool,  public AlgTool {
@@ -79,7 +79,8 @@ public:
    * @return Success or Failure
   **/
   virtual StatusCode makeAcdHits ( const Event::AcdDigiCol&,
-				   bool periodicEvent, 
+				   bool periodicEvent,
+				   unsigned gemDeltaEventTime, 
 				   Event::AcdHitCol&,
 				   AcdRecon::AcdHitMap&);
   
@@ -155,6 +156,11 @@ private:
   float m_mips_ribbon_cut;
   /// Value to use for "Ninja" hits, with no signal, but veto bit asserted
   float m_vetoThreshold;
+  /// Flag to apply the coherent noise calibration
+  bool m_applyCoherentNoiseCalib;
+
+  /// Number of ticks since last readout.  Needed to calibration coherent noise
+  unsigned m_gemDeltaEventTime;
 
   /// Output collection
   Event::AcdHitCol* output;
