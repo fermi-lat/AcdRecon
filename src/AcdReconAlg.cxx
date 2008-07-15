@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.69 2008/05/08 00:09:34 echarles Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.70 2008/07/09 20:27:58 echarles Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -1151,8 +1151,15 @@ StatusCode AcdReconAlg::extrapolateTrack(const Event::TkrTrack& aTrack,
 
   // build all the intersections
   if ( m_intersectionTool != 0 ) {
-    sc = m_intersectionTool->makeIntersections(*m_G4PropTool,trackData,isectData,pocaDataMap,m_hitMap,*m_geomMap,
-					       acdIntersections,gapPocas);
+    try {
+      sc = m_intersectionTool->makeIntersections(*m_G4PropTool,trackData,isectData,pocaDataMap,m_hitMap,*m_geomMap,
+						 acdIntersections,gapPocas);
+    } catch (...) {
+      log << MSG::ERROR << "Caught exception using propagator to make intersection with track " << trackData.m_index 
+	<< ".  No ACD intersections calculated for that track." <<   endreq;
+      // Don't crash, just continue.
+      return sc;
+    }
   }
   if ( sc.isFailure() ) {
     log << MSG::ERROR << "AcdTkrIntersectionTool::makeIntersections failed" << endreq;
@@ -1170,9 +1177,15 @@ StatusCode AcdReconAlg::extrapolateTrack(const Event::TkrTrack& aTrack,
   for ( itr = pocaDataMap.begin(); itr != pocaDataMap.end(); itr++ ) {
     AcdRecon::PocaData& pocaData = *(itr->second);
     float pocaArcLength = forward ? pocaData.m_arcLength : -1* pocaData.m_arcLength;
-    
-    AcdRecon::propagateToArcLength(*m_G4PropTool,trackData,pocaArcLength,next_params,paramsAtArcLength);
-    AcdRecon::projectErrorToPocaVector(paramsAtArcLength,pocaData.m_pocaVector,pocaData.m_active3DErr);
+    try {
+      AcdRecon::propagateToArcLength(*m_G4PropTool,trackData,pocaArcLength,next_params,paramsAtArcLength);
+      AcdRecon::projectErrorToPocaVector(paramsAtArcLength,pocaData.m_pocaVector,pocaData.m_active3DErr);
+    } catch (...) {
+       log << MSG::ERROR << "Caught exception using propagator make POCAs with track " << trackData.m_index 
+	<< ".  No ACD POCAs calculated for that track." <<   endreq;
+      // Don't crash, just continue.
+      return sc;
+    }
     Event::AcdTkrHitPoca* aPoca(0);
     if ( m_pocaTool != 0 ) {
       sc = m_pocaTool->makePoca(trackData,pocaData,aPoca);
