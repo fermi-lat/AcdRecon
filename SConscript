@@ -1,5 +1,5 @@
 # -*- python -*-
-# $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/SConscript,v 1.3 2008/08/15 21:22:38 ecephas Exp $
+# $Header: /nfs/slac/g/glast/ground/cvs/GlastRelease-scons/AcdRecon/SConscript,v 1.4 2008/09/03 19:30:12 glastrm Exp $
 # Authors: Heather Kelly <heather@slac.stanford.edu>, Eric Charles <echarles@slac.stanford.edu>
 # Version: AcdRecon-04-03-03
 import os
@@ -10,7 +10,7 @@ progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
 libEnv.Tool('AcdReconLib', depsOnly = 1)
-AcdRecon = libEnv.SharedLibrary('AcdRecon', listFiles(['src/*.cxx']) + listFiles(['src/Dll/*.cxx']))
+AcdRecon = libEnv.SharedLibrary('AcdRecon', listFiles(['src/*.cxx','src/Dll/*.cxx']))
 
 progEnv.Tool('AcdReconLib')
 
