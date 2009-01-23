@@ -1,7 +1,7 @@
 # -*- python -*-
-# $Header: /nfs/slac/g/glast/ground/cvs/GlastRelease-scons/AcdRecon/SConscript,v 1.2 2008/07/15 02:30:09 glastrm Exp $
+# $Header: /nfs/slac/g/glast/ground/cvs/GlastRelease-scons/AcdRecon/SConscript,v 1.4.26.2 2009/01/16 17:09:37 ecephas Exp $
 # Authors: Heather Kelly <heather@slac.stanford.edu>, Eric Charles <echarles@slac.stanford.edu>
-# Version: AcdRecon-04-03-02
+# Version: AcdRecon-04-03-03
 import os
 Import('baseEnv')
 Import('listFiles')
@@ -10,7 +10,7 @@ progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
 libEnv.Tool('AcdReconLib', depsOnly = 1)
-AcdRecon = libEnv.SharedLibrary('AcdRecon', listFiles(['src/*.cxx']) + listFiles(['src/Dll/*.cxx']))
+AcdRecon = libEnv.SharedLibrary('AcdRecon', listFiles(['src/*.cxx','src/Dll/*.cxx']))
 
 progEnv.Tool('AcdReconLib')
 
@@ -22,4 +22,8 @@ if baseEnv['PLATFORM'] == 'win32':
 
 test_AcdRecon = progEnv.GaudiProgram('test_AcdRecon', listFiles(['src/test/*.cxx']), test = 1)
 
-progEnv.Tool('registerObjects', package = 'facilities', libraries = [AcdRecon], testApps = [test_AcdRecon],includes = listFiles(['AcdRecon/*.h']))
+progEnv.Tool('registerObjects', package = 'AcdRecon', libraries = [AcdRecon], testApps = [test_AcdRecon],includes = listFiles(['AcdRecon/*.h']))
+
+
+
+
