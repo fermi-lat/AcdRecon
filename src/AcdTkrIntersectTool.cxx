@@ -606,8 +606,8 @@ StatusCode AcdTkrIntersectTool::makeGapPoca(idents::AcdGapId& gapId, const AcdRe
   static Event::AcdTkrLocalCoords localCoords;
   static Event::AcdPocaData pd;
 
-  localCoords.set(local,pocaData.m_path,pocaData.m_cosTheta,pocaData.m_region,pocaData.m_planeError);
-  pd.set(arcLength,distance,pocaData.m_active3DErr,pocaData.m_poca,pocaData.m_pocaVector);
+  localCoords.setLocalData(local,pocaData.m_path,pocaData.m_cosTheta,pocaData.m_region,pocaData.m_planeError);
+  pd.setPocaData(arcLength,distance,pocaData.m_active3DErr,pocaData.m_poca,pocaData.m_pocaVector);
   poca = new Event::AcdTkrGapPoca(gapId,track.m_index,localCoords,pd);
 
   return StatusCode::SUCCESS;
