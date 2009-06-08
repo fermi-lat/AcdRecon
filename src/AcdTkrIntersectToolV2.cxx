@@ -420,7 +420,7 @@ StatusCode AcdTkrIntersectToolV2::gapPocaTile(const AcdRecon::TrackData& track, 
     }
   }
   
-  const AcdTileDim* tile = geomMap.getTile(pocaData.m_id,*m_acdGeomSvc);
+  AcdTileDim* tile = const_cast<AcdTileDim*>(geomMap.getTile(pocaData.m_id,*m_acdGeomSvc));
   StatusCode sc = tile->latchGaps();
   if ( sc.isFailure() ) {
     return sc;
@@ -455,7 +455,10 @@ StatusCode AcdTkrIntersectToolV2::makeGapPoca(idents::AcdGapId& gapId, const Acd
   float vetoSigmaHit(0.);
   float local[2];
   local[0] = pocaData.m_activeX;
-  
+
+  float active[2];
+  active[0] = pocaData.m_activeX; active[1] = pocaData.m_activeY;
+
   float halfGapSize = gapSize/2.;
   float gapCenter = -1.* halfGapSize;
   
@@ -518,7 +521,7 @@ StatusCode AcdTkrIntersectToolV2::makeGapPoca(idents::AcdGapId& gapId, const Acd
 	      << vetoSigmaProp << std::endl;
   }
 
-  poca = new Event::AcdTkrGapPoca(gapId,track.m_index,
+  poca = new Event::AcdTkrGapPoca(gapId,track.m_index,active,				  
 				  vetoSigmaHit,vetoSigmaProj,vetoSigmaProp,
 				  pocaData.m_volumePlane,arcLengthPlane,pocaData.m_cosTheta,
 				  pocaData.m_hitsPlane,local,pocaData.m_planeError_proj,pocaData.m_planeError_prop,
