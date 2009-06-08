@@ -3,6 +3,7 @@ package AcdRecon\n
 package manager:H.Kelly
 
 @verbatim
+v5r0p0gr1 08-Jun-2009 EAC Commit new version of AcdRecon
 
 v4r3p3    03-Sep-2008 EAC Don't try to get mip equivalent for NA channels
 v4r3p2    14-Jul-2008 EAC Put call to run G4Propagator in try-catch to protect against bad tracks
