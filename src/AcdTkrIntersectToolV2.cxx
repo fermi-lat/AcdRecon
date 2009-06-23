@@ -561,7 +561,7 @@ StatusCode AcdTkrIntersectToolV2::makeTkrPoint(const AcdRecon::TrackData& track,
 
 float AcdTkrIntersectToolV2::sigmaEquivalent(float x1, float x2) {
 
-  static const double root2 = sqrt(2);
+  static const double root2 = sqrt(2.);
   double erf1 = TMath::Erf(x1);
   double erf2 = TMath::Erf(x2);
   double delErf = fabs(erf1 - erf2);
