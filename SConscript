@@ -1,5 +1,5 @@
 # -*- python -*-
-# $Header: /nfs/slac/g/glast/ground/cvs/GlastRelease-scons/AcdRecon/SConscript,v 1.4.26.2 2009/01/16 17:09:37 ecephas Exp $
+# $Header: /nfs/slac/g/glast/ground/cvs/GlastRelease-scons/AcdRecon/SConscript,v 1.7 2009/01/23 00:06:40 ecephas Exp $
 # Authors: Heather Kelly <heather@slac.stanford.edu>, Eric Charles <echarles@slac.stanford.edu>
 # Version: AcdRecon-04-03-03
 import os
@@ -20,9 +20,12 @@ if baseEnv['PLATFORM'] != 'win32':
 if baseEnv['PLATFORM'] == 'win32':
 	progEnv.AppendUnique(LINKFLAGS = ' /include:_GuiSvc_loadRef')
 
-test_AcdRecon = progEnv.GaudiProgram('test_AcdRecon', listFiles(['src/test/*.cxx']), test = 1)
+test_AcdRecon = progEnv.GaudiProgram('test_AcdRecon',
+                                     listFiles(['src/test/*.cxx']), test = 1)
 
-progEnv.Tool('registerObjects', package = 'AcdRecon', libraries = [AcdRecon], testApps = [test_AcdRecon],includes = listFiles(['AcdRecon/*.h']))
+progEnv.Tool('registerTargets', package = 'AcdRecon',
+             libraryCxts=[[AcdRecon, libEnv]],testAppCxts=[[test_AcdRecon,progEnv]],
+             includes = listFiles(['AcdRecon/*.h']))
 
 
 
