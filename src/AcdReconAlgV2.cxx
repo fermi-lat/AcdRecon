@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/Attic/AcdReconAlgV2.cxx,v 1.1.2.1 2009/06/08 17:41:06 echarles Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.cxx,v 1.2 2009/12/15 15:10:50 heather Exp $
 //
 // Description:
 //      AcdReconAlgV2 is a Gaudi algorithm which performs the ACD reconstruction.
@@ -365,7 +365,6 @@ StatusCode AcdReconAlgV2::reconstruct (const Event::AcdDigiCol& digiCol) {
       }
     }
 
-    Event::AcdReconV2::s_theAcdReconV2Ptr = acdRecon;
     acdRecon->getHitCol().init(acdHits);
     acdRecon->getTkrAssocCol().init(acdTkrAssocs);
     
