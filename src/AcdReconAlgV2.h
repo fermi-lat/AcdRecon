@@ -142,7 +142,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
  * @author Heather Kelly
  * @author Eric Charles
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/Attic/AcdReconAlgV2.h,v 1.1.2.1 2009/06/08 17:41:05 echarles Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.h,v 1.2 2009/12/15 15:10:50 heather Exp $
  */
 class AcdReconAlgV2 : public Algorithm
 {
@@ -190,6 +190,10 @@ class AcdReconAlgV2 : public Algorithm
       StatusCode trackDistances(const Event::AcdHitCol& acdHits, 
 				Event::AcdTkrAssocCol& tkrAssocs);
 
+      /// try and do the same thing with the CAL cluster(s)
+      StatusCode calClusterDistances(const Event::AcdHitCol& acdHits, 
+				     Event::AcdTkrAssocCol& tkrAssocs);
+
       /// retrieves event vertex and calls the DOCA and Active Distance routines
       StatusCode vertexDistances(const Event::AcdHitCol& acdHits, 
 				 Event::AcdTkrAssocCol& tkrAssocs);
@@ -208,7 +212,7 @@ class AcdReconAlgV2 : public Algorithm
 			       AcdRecon::PocaData& pocaData);
 
       /// Extrapolate track as far as needed, add error to AcdTkrPoca, make AcdTkrIntersections
-      StatusCode extrapolateTrack(const Event::TkrTrack& aTrack,
+      StatusCode extrapolateTrack(const Event::TkrTrackParams& trackParams,
 				  const AcdRecon::TrackData& trackData,
 				  const AcdRecon::ExitData& isectData,
 				  AcdRecon::PocaDataPtrMap& pocaDataMap,
