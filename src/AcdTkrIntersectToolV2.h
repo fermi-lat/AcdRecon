@@ -73,7 +73,7 @@ namespace CLHEP {class HepMatrix;}
  +
  * @author Eric Charles
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/Attic/AcdTkrIntersectToolV2.h,v 1.1.2.1 2009/06/08 17:40:29 echarles Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdTkrIntersectToolV2.h,v 1.2 2009/12/15 15:10:50 heather Exp $
 */
 
 
@@ -103,7 +103,7 @@ class AcdTkrIntersectToolV2 : public AcdITkrIntersectToolV2,  public AlgTool {
    *  @return Success or Failure
    **/
   virtual StatusCode makeIntersections(IPropagator& prop,
-				       const Event::TkrTrack& aTrack,
+				       const Event::TkrTrackParams& trackParams,
 				       const AcdRecon::TrackData& track,
 				       const AcdRecon::ExitData& data,	
 				       const AcdRecon::AcdHitMap& hitMap,

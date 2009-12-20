@@ -27,10 +27,10 @@ class AcdGeomMap;
  *
  * @author Eric Charles
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/Attic/AcdITkrIntersectToolV2.h,v 1.1.2.1 2009/06/08 17:40:29 echarles Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdITkrIntersectToolV2.h,v 1.2 2009/12/15 15:10:50 heather Exp $
  **/
 
-static const InterfaceID IID_AcdITkrIntersectToolV2("AcdITkrIntersectToolV2",1,1) ;
+static const InterfaceID IID_AcdITkrIntersectToolV2("AcdITkrIntersectToolV2",1,2) ;
 
 class AcdITkrIntersectToolV2 : virtual public IAlgTool {
 
@@ -57,7 +57,7 @@ class AcdITkrIntersectToolV2 : virtual public IAlgTool {
    *  @return Success or Failure
    **/
   virtual StatusCode makeIntersections(IPropagator& prop,
-				       const Event::TkrTrack& aTrack,
+				       const Event::TkrTrackParams& trackParams,
 				       const AcdRecon::TrackData& track,
 				       const AcdRecon::ExitData& data,	
 				       const AcdRecon::AcdHitMap& hitMap,
