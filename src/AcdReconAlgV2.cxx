@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.cxx,v 1.3 2009/12/19 18:29:47 echarles Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.cxx,v 1.4 2009/12/20 15:58:52 echarles Exp $
 //
 // Description:
 //      AcdReconAlgV2 is a Gaudi algorithm which performs the ACD reconstruction.
@@ -1051,11 +1051,11 @@ StatusCode AcdReconAlgV2::calClusterDistances(const Event::AcdHitCol& acdHits,
  	iCluster++;
 
  	// grab the cluster direction information
-	upwardExtend.m_energy = calClusterTds->getCalParams().getEnergy();
+	upwardExtend.m_energy = calClusterTds->getMomParams().getEnergy();
  	upwardExtend.m_index = 11 + iCluster;
  	upwardExtend.m_upward = true;
 	std::cout << "Energy for index " << upwardExtend.m_index << ": " << upwardExtend.m_energy << std::endl;
-	AcdRecon::ReconFunctions::convertToAcdRep(calClusterTds->getCalParams(), upwardExtend);
+	AcdRecon::ReconFunctions::convertToAcdRep(calClusterTds->getMomParams(), upwardExtend);
  	
 	// get the LAT exit points
  	if ( ! AcdRecon::ReconFunctions::exitsLat(upwardExtend,s_acdVolume,upwardExit) ) {
