@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.cxx,v 1.5 2010/12/19 17:30:30 lbaldini Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.cxx,v 1.6 2011/01/25 21:06:57 echarles Exp $
 //
 // Description:
 //      AcdReconAlgV2 is a Gaudi algorithm which performs the ACD reconstruction.
@@ -937,14 +937,14 @@ StatusCode AcdReconAlgV2::hitDistances(const AcdRecon::TrackData& aTrack,
       continue;
     }
     // not there, make it
-    AcdRecon::PocaData& pocaData = pocaMap[acdId];
+    AcdRecon::PocaData pocaData;
     sc = elemDistances(aTrack,acdId,pocaData);
     if ( sc.isFailure() ) {
       // Already gave error message, just return
       return sc;
     } 
-    if ( pocaData.m_arcLengthPlane < 0. ) {
-      pocaMap.erase(acdId);
+    if ( pocaData.m_arcLengthPlane >= 0. ) {
+        pocaMap[acdId] = pocaData;
     }
     pocaData.m_hasHit = true;
 
