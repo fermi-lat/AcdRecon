@@ -1,5 +1,5 @@
 // File and Version Information:
-// $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.9.6.1 2006/01/31 19:36:34 usher Exp $
+// $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.10 2006/03/21 01:44:41 usher Exp $
 // Description:
 // Handles the display of the ACD DOCA values on the GUI.
 
@@ -31,7 +31,7 @@ typedef HepGeom::Point3D<double> HepPoint3D;
  * @brief Display the ACD DOCA's as numbers at the tile center positions
  *
  * @author Heather Kelly
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.9.6.1 2006/01/31 19:36:34 usher Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdDisplay.cxx,v 1.10 2006/03/21 01:44:41 usher Exp $
  */
 
 
@@ -85,7 +85,7 @@ public:
         topRibbonId.append(ribbonVolid[4]);
         topRibbonId.append(1);
         HepPoint3D ribboncenter;
-        HepTransform3D transform;
+        HepGeom::Transform3D transform;
 
         StatusCode sc = m_detsvc->getTransform3DByID(topRibbonId, &transform);
         if(sc.isSuccess()) ribboncenter = transform*ribboncenter;
