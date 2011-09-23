@@ -2,7 +2,7 @@
 //
 // Job options file for AcdRecon test
 // 
-// $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/test/jobOptions.txt,v 1.13 2008/07/21 15:17:24 glastrm Exp $
+// $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/test/jobOptions.txt,v 1.13.250.1 2011/09/22 16:37:29 heather Exp $
 
 //  -------------- basic Glast/Gaudi run enviornment -----------
 ApplicationMgr.DLLs = { "GlastSvc", "AcdRecon", "RootIo", "TkrUtil", "AcdUtil",
@@ -14,7 +14,7 @@ ApplicationMgr.ExtSvc = {
     "GlastDetSvc" 
     };
 
-#include "$CALIBSVCJOBOPTIONSPATH/src/defaultOptions.txt"
+#include "$CALIBSVCJOBOPTIONSPATH/defaultOptions.txt"
 
 EventPersistencySvc.CnvServices = {"EventCnvSvc"};
 EventSelector.Input = "NONE";
