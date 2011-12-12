@@ -1,7 +1,7 @@
 # -*- python -*-
-# $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/SConscript,v 1.24 2011/09/05 23:39:41 kadrlica Exp $
+# $Header: /nfs/slac/g/glast/ground/cvs/GlastRelease-scons/AcdRecon/SConscript,v 1.17.2.2 2010/10/20 18:09:06 jrb Exp $
 # Authors: Heather Kelly <heather@slac.stanford.edu>, Eric Charles <echarles@slac.stanford.edu>
-# Version: AcdRecon-05-01-15
+# Version: AcdRecon-05-02-00
 import os
 Import('baseEnv')
 Import('listFiles')
@@ -10,7 +10,7 @@ progEnv = baseEnv.Clone()
 libEnv = baseEnv.Clone()
 
 libEnv.Tool('addLinkDeps', package='AcdRecon', toBuild='component')
-AcdRecon = libEnv.SharedLibrary('AcdRecon', listFiles(['src/*.cxx','src/Dll/*.cxx']))
+AcdRecon = libEnv.ComponentLibrary('AcdRecon', listFiles(['src/*.cxx']))
 
 progEnv.Tool('AcdReconLib')
 
