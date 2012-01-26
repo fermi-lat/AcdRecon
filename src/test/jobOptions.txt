@@ -2,22 +2,23 @@
 //
 // Job options file for AcdRecon test
 // 
-// $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/test/jobOptions.txt,v 1.13.250.1 2011/09/22 16:37:29 heather Exp $
+// $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/test/jobOptions.txt,v 1.15 2011/12/12 20:19:07 heather Exp $
 
 //  -------------- basic Glast/Gaudi run enviornment -----------
 ApplicationMgr.DLLs = { "GlastSvc", "AcdRecon", "RootIo", "TkrUtil", "AcdUtil",
             "G4Propagator", "G4Generator", "CalibSvc"};
 
 ApplicationMgr.ExtSvc = { 
-//    "GlastEventSelector/EventSelector" , 
-    "EventCnvSvc", 
+    "DbEvtSelector/EventSelector" , 
+//    "EventCnvSvc", 
     "GlastDetSvc" 
     };
 
 #include "$CALIBSVCJOBOPTIONSPATH/defaultOptions.txt"
+ApplicationMgr.HistogramPersistency = "NONE";
 
 EventPersistencySvc.CnvServices = {"EventCnvSvc"};
-EventSelector.Input = "NONE";
+//EventSelector.Input = "NONE";
 
 // Stuff for detModel
 // select one of the following for a top volume 

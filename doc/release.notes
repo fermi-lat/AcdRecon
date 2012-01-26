@@ -4,6 +4,7 @@ package manager:H.Kelly
 
 @verbatim
 
+AcdRecon-04-03-03-gr04 26-Jan-2012 HMK Gaudi v21r7
 AcdRecon-04-03-03-gr03 23-Sep-2011 HMK patch for unit test JO
 AcdRecon-04-03-03-gr02 22-Sep-2011 HMK patch unit test JO
 AcdRecon-04-03-03-gr01 01-Aug-2011 HMK merge in SCons updates

@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.70 2008/07/09 20:27:58 echarles Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlg.cxx,v 1.71 2008/07/15 02:15:51 echarles Exp $
 //
 // Description:
 //      AcdReconAlg is a Gaudi algorithm which performs the ACD reconstruction.
@@ -71,8 +71,9 @@ static double maxDoca = 2000.0;
 
 //------------------------------------------------------------------------
 
-static const AlgFactory<AcdReconAlg>  Factory;
-const IAlgFactory& AcdReconAlgFactory = Factory;
+//static const AlgFactory<AcdReconAlg>  Factory;
+//const IAlgFactory& AcdReconAlgFactory = Factory;
+DECLARE_ALGORITHM_FACTORY(AcdReconAlg);
 
 // Algorithm parameters which can be set at run time must be declared.
 // This should be done in the constructor
