@@ -4,6 +4,7 @@ package manager:H.Kelly
 
 EOH
 
+ AcdRecon-05-01-15-gr01 27-Jan-2012 kadrlica Added Tile22 to pat rec map and fix for particles with pocas just outside of tile boundaries
  AcdRecon-05-01-15 24-Nov-2011 kadrlica Fixed some error messages in AcdReconV2. Implemented a place holder for the cluster covariance matrix
  AcdRecon-05-01-14 05-Sep-2011 kadrlica Added treatment of AcdCalAssoc to AcdReconAlgV2
  AcdRecon-05-01-13 26-May-2011 HMK More CLHEP tweaks on windows
