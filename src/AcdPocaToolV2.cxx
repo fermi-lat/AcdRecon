@@ -159,8 +159,11 @@ StatusCode AcdPocaToolV2::makePoca(const AcdRecon::TrackData& aTrack,
   float local[2]; 
   float active2d[2];
   float mips[2];
+  unsigned short flags[2];
   mips[0] =  theHit ? theHit->mips( Event::AcdHit::A) : 0.;
   mips[1] =  theHit ? theHit->mips( Event::AcdHit::B) : 0.;
+  flags[0] =  theHit ? theHit->getFlags( Event::AcdHit::A) : 0;
+  flags[1] =  theHit ? theHit->getFlags( Event::AcdHit::B) : 0;
 
   local[0] = pocaData.m_inPlane.x();
   active2d[0] = pocaData.m_activeX;
@@ -248,7 +251,7 @@ StatusCode AcdPocaToolV2::makePoca(const AcdRecon::TrackData& aTrack,
 				  pocaData.m_planeError_proj,pocaData.m_planeError_prop,
 				  pocaData.m_volume,pocaData.m_region,arcLengthPoca,
 				  distance,activeDist3DErrProj,activeDist3DErrProp,
-				  p,voca);
+				  p,voca,flags);
 
   return StatusCode::SUCCESS;
 
