@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.cxx,v 1.8 2011/09/05 23:08:20 kadrlica Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.cxx,v 1.9 2011/11/24 18:31:09 kadrlica Exp $
 //
 // Description:
 //      AcdReconAlgV2 is a Gaudi algorithm which performs the ACD reconstruction.
@@ -602,8 +602,8 @@ StatusCode AcdReconAlgV2::trackDistances(const Event::AcdHitCol& acdHits,
 
 	HepVector3D propVect = upwardExtend.m_current - upwardExtend.m_point;
 	
- 	Event::AcdTkrAssoc* upAssoc = 
-	  new Event::AcdTkrAssoc(upwardExtend.m_index,true,upwardExtend.m_energy,
+ 	Event::AcdAssoc* upAssoc = 
+	  new Event::AcdAssoc(upwardExtend.m_index,true,upwardExtend.m_energy,
 				 upwardExtend.m_point,upwardExtend.m_dir,propVect.mag(),
 				 upwardExtend.m_cov_orig,upwardExtend.m_cov_prop,
 				 ssdVetoUp,cornerDocaUp);
@@ -616,8 +616,8 @@ StatusCode AcdReconAlgV2::trackDistances(const Event::AcdHitCol& acdHits,
 	tkrAssocs.push_back(upAssoc);
 
 	propVect = downwardExtend.m_current - downwardExtend.m_point;
- 	Event::AcdTkrAssoc* downAssoc = 
-	  new Event::AcdTkrAssoc(downwardExtend.m_index,false,downwardExtend.m_energy,
+ 	Event::AcdAssoc* downAssoc = 
+	  new Event::AcdAssoc(downwardExtend.m_index,false,downwardExtend.m_energy,
 				 downwardExtend.m_point,downwardExtend.m_dir,propVect.mag(),
 				 downwardExtend.m_cov_orig,downwardExtend.m_cov_prop,
 				 ssdVetoDown,cornerDocaDown);
@@ -770,8 +770,8 @@ StatusCode AcdReconAlgV2::vertexDistances(const Event::AcdHitCol& acdHits,
       return sc;
     }
     HepVector3D propVect = upwardExtend.m_current - upwardExtend.m_point;    
-    Event::AcdTkrAssoc* upAssoc = 
-      new Event::AcdTkrAssoc(-1,true,upwardExtend.m_energy,
+    Event::AcdAssoc* upAssoc = 
+      new Event::AcdAssoc(-1,true,upwardExtend.m_energy,
 			     upwardExtend.m_point,upwardExtend.m_dir,propVect.mag(),
 			     upwardExtend.m_cov_orig,upwardExtend.m_cov_prop,
 			     ssdVetoUp,cornerDocaUp);
@@ -783,8 +783,8 @@ StatusCode AcdReconAlgV2::vertexDistances(const Event::AcdHitCol& acdHits,
     tkrAssocs.push_back(upAssoc);
 
     propVect = upwardExtend.m_current - upwardExtend.m_point;        
-    Event::AcdTkrAssoc* downAssoc = 
-      new Event::AcdTkrAssoc(-1,false,downwardExtend.m_energy,
+    Event::AcdAssoc* downAssoc = 
+      new Event::AcdAssoc(-1,false,downwardExtend.m_energy,
 			     downwardExtend.m_point,downwardExtend.m_dir,propVect.mag(),
 			     downwardExtend.m_cov_orig,downwardExtend.m_cov_prop,
 			     ssdVetoDown,cornerDocaDown);
@@ -878,8 +878,8 @@ StatusCode AcdReconAlgV2::mcDistances(const Event::AcdHitCol& acdHits,
     }
 
     HepVector3D propVect = extend.m_current - extend.m_point;    
-    Event::AcdTkrAssoc* assoc = 
-      new Event::AcdTkrAssoc(-2,true,extend.m_energy,
+    Event::AcdAssoc* assoc = 
+      new Event::AcdAssoc(-2,true,extend.m_energy,
 			     extend.m_point,extend.m_dir,propVect.mag(),
 			     extend.m_cov_orig,extend.m_cov_prop,
 			     ssdVeto,cornerDoca);
@@ -1165,8 +1165,8 @@ StatusCode AcdReconAlgV2::calClusterDistances(const Event::AcdHitCol& acdHits,
 
  	HepVector3D propVect = upwardExtend.m_current - upwardExtend.m_point;
 
-  	Event::AcdCalAssoc* upAssoc = 
- 	  new Event::AcdCalAssoc(upwardExtend.m_index,true,upwardExtend.m_energy,
+  	Event::AcdAssoc* upAssoc = 
+ 	  new Event::AcdAssoc(upwardExtend.m_index,true,upwardExtend.m_energy,
  				 upwardExtend.m_point,upwardExtend.m_dir,propVect.mag(),
  				 upwardExtend.m_cov_orig,upwardExtend.m_cov_prop,
  				 ssdVetoUp,cornerDocaUp);
@@ -1403,7 +1403,7 @@ StatusCode AcdReconAlgV2::calcCornerDoca(const AcdRecon::TrackData& track,
 
 
 /// Fill an AcdTkrAssoc with data
-StatusCode AcdReconAlgV2::fillTkrAssoc(Event::AcdTkrAssoc& assoc,
+StatusCode AcdReconAlgV2::fillTkrAssoc(Event::AcdAssoc& assoc,
 				     const std::vector<Event::AcdTkrHitPoca*>& hitPocae,
 				     const std::vector<Event::AcdTkrGapPoca*>& gapPocae,
 				     Event::AcdTkrPoint* point) {
@@ -1425,7 +1425,7 @@ StatusCode AcdReconAlgV2::fillTkrAssoc(Event::AcdTkrAssoc& assoc,
 }
 
 /// Fill an AcdCalAssoc with data
-StatusCode AcdReconAlgV2::fillCalAssoc(Event::AcdCalAssoc& assoc,
+StatusCode AcdReconAlgV2::fillCalAssoc(Event::AcdAssoc& assoc,
 				     const std::vector<Event::AcdTkrHitPoca*>& hitPocae,
 				     const std::vector<Event::AcdTkrGapPoca*>& gapPocae,
 				     Event::AcdTkrPoint* point) {

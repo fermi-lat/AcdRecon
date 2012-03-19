@@ -12,8 +12,7 @@
 #include "Event/Recon/AcdRecon/AcdTkrHitPoca.h"
 #include "Event/Recon/AcdRecon/AcdTkrGapPoca.h"
 #include "Event/Recon/AcdRecon/AcdHit.h"
-#include "Event/Recon/AcdRecon/AcdTkrAssoc.h"
-#include "Event/Recon/AcdRecon/AcdCalAssoc.h"
+#include "Event/Recon/AcdRecon/AcdAssoc.h"
 
 #include "GaudiKernel/ObjectVector.h"
 
@@ -143,7 +142,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
  * @author Heather Kelly
  * @author Eric Charles
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.h,v 1.3 2009/12/20 15:58:52 echarles Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.h,v 1.4 2011/09/05 23:08:19 kadrlica Exp $
  */
 class AcdReconAlgV2 : public Algorithm
 {
@@ -236,13 +235,13 @@ class AcdReconAlgV2 : public Algorithm
 			   std::vector<Event::AcdTkrGapPoca*>& gapPocae );
 
       /// Fill an AcdTkrAssoc with data
-      StatusCode fillTkrAssoc(Event::AcdTkrAssoc& assoc,
+      StatusCode fillTkrAssoc(Event::AcdAssoc& assoc,
 			      const std::vector<Event::AcdTkrHitPoca*>& hitPocae,
 			      const std::vector<Event::AcdTkrGapPoca*>& gapPocae,
 			      Event::AcdTkrPoint* point);
 
       /// Fill an AcdCalAssoc with data
-      StatusCode fillCalAssoc(Event::AcdCalAssoc& assoc,
+      StatusCode fillCalAssoc(Event::AcdAssoc& assoc,
 			      const std::vector<Event::AcdTkrHitPoca*>& hitPocae,
 			      const std::vector<Event::AcdTkrGapPoca*>& gapPocae,
 			      Event::AcdTkrPoint* point);
