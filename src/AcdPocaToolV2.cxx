@@ -222,13 +222,18 @@ StatusCode AcdPocaToolV2::makePoca(const AcdRecon::TrackData& aTrack,
   
   if ( hasHit ) {
     float totalMips = mips[0] + mips[1];
-    // Note that vetoSigmaHit
+    // Note that vetoSigmaHit takes the difference between expected
+    // and measured MIP signal and divides by the fit width of the
+    // MIP peak at normal incidence (~0.45 for tiles; 1.0 for ribbons).
+    // Path length corrections are made.
     if ( acdId.tile() ) {
       float expectedMips = 2. / pocaData.m_cosTheta;
-      vetoSigmaHit = ( expectedMips - totalMips ) / 0.45;  
+      float sigmaMips = 0.45 / sqrt(pocaData.m_cosTheta);
+      vetoSigmaHit = ( expectedMips - totalMips ) / sigmaMips;  
     } else {
       float expectedMips = 1.5;
-      vetoSigmaHit = ( expectedMips - totalMips ) / 1.;
+      float sigmaMips = 1.;
+      vetoSigmaHit = ( expectedMips - totalMips ) / sigmaMips;
     }
   }
 
