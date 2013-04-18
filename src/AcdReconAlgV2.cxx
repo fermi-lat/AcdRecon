@@ -1,5 +1,5 @@
 // File and Version Information:
-//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.cxx,v 1.14 2013/03/25 14:27:39 bruel Exp $
+//      $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.cxx,v 1.15 2013/04/18 18:15:03 echarles Exp $
 //
 // Description:
 //      AcdReconAlgV2 is a Gaudi algorithm which performs the ACD reconstruction.
@@ -480,7 +480,7 @@ StatusCode AcdReconAlgV2::trackDistances(const Event::AcdHitCol& acdHits,
 
     for ( int iTrack(0); iTrack < nTrack; iTrack++) {
 
-    const Event::TkrTrack* trackTds  = trackVec[i];       // The TDS track
+    const Event::TkrTrack* trackTds  = trackVec[iTrack];       // The TDS track
     bool isCR = trackTds->getStatusBits() & Event::TkrTrack::COSMICRAY;
 
     // grap the track direction information
