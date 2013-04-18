@@ -14,6 +14,8 @@
 #include "Event/Recon/AcdRecon/AcdHit.h"
 #include "Event/Recon/AcdRecon/AcdAssoc.h"
 
+#include "TkrUtil/ITkrTrackVecTool.h"
+
 #include "GaudiKernel/ObjectVector.h"
 
 #include "AcdITkrIntersectToolV2.h"
@@ -142,7 +144,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
  * @author Heather Kelly
  * @author Eric Charles
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.h,v 1.4.8.1 2012/03/19 15:24:12 kadrlica Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.h,v 1.5 2012/04/25 04:58:43 heather Exp $
  */
 class AcdReconAlgV2 : public Algorithm
 {
@@ -284,6 +286,9 @@ class AcdReconAlgV2 : public Algorithm
       /// access to the Glast Detector Service to read in geometry constants from XML files
       IGlastDetSvc *m_glastDetSvc;
       IAcdGeometrySvc *m_acdGeoSvc;
+
+      /// trackVecTool
+      ITkrTrackVecTool* m_pTrackVec;
   
       /// Tolernace for pat-rec hash map
       double           m_patRecTol;
