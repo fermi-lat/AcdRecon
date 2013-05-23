@@ -144,7 +144,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
  * @author Heather Kelly
  * @author Eric Charles
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.h,v 1.6 2013/04/18 18:15:03 echarles Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.h,v 1.7 2013/05/16 18:59:35 echarles Exp $
  */
 class AcdReconAlgV2 : public Algorithm
 {
@@ -303,6 +303,9 @@ class AcdReconAlgV2 : public Algorithm
       
       /// Turn on or off the extrapolations using the downgoing solutions
       bool m_doDownwardExtrap;
+      
+      /// Turn on or off the extrapolations using the downgoing solutions
+      bool m_doCRTrackExtrap;
       
       /// map of AcdId and the corresponding hit status 
       AcdRecon::AcdHitMap m_hitMap;
