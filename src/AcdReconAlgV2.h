@@ -144,7 +144,7 @@ typedef HepGeom::Vector3D<double> HepVector3D;
  * @author Heather Kelly
  * @author Eric Charles
  *
- * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.h,v 1.7 2013/05/16 18:59:35 echarles Exp $
+ * $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdReconAlgV2.h,v 1.8 2013/05/23 01:13:47 echarles Exp $
  */
 class AcdReconAlgV2 : public Algorithm
 {
@@ -306,7 +306,16 @@ class AcdReconAlgV2 : public Algorithm
       
       /// Turn on or off the extrapolations using the downgoing solutions
       bool m_doCRTrackExtrap;
+
+      /// Number of Poca to store per track or cluster
+      int m_nPocaSave;
       
+      /// Number of Hit Poca to store per track or cluster
+      int m_nHitPocaSave;
+     
+      /// Number of Trigger Poca to store per track or cluster
+      int m_nTrigPocaSave;
+     
       /// map of AcdId and the corresponding hit status 
       AcdRecon::AcdHitMap m_hitMap;
 
