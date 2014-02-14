@@ -50,7 +50,7 @@ class HepMatrix;
 *  - PHARibbonCut [0.]            : Ignore all ribbons with pedestal subtracted PHA below this valu
 *  - MIPSRibbonCut [0.]           : Ignore all ribbons with MIP equivalent below this value
 *
-* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdPha2MipTool.h,v 1.7 2008/04/22 23:10:59 echarles Exp $
+* $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/src/AcdPha2MipTool.h,v 1.8 2008/05/08 00:09:34 echarles Exp $
 */
 
 class AcdPha2MipTool : public AcdIPha2MipTool,  public AlgTool {
@@ -143,6 +143,17 @@ protected:
    * @return true if hit should be accepted, false otherwise
   **/
   bool accept(const idents::AcdId& id, float pedSubtracted, float mips) const;
+
+
+  /**
+   * @brief 
+   * 
+   * @param id of channel in question
+   * @param total mips
+   * @return true if hit should be accepted, false otherwise
+  **/
+  bool acceptTotalMips(const idents::AcdId& id, float totalMips) const;
+  
 
 private:
 
