@@ -1,7 +1,7 @@
 # -*- python -*-
-# $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/SConscript,v 1.46 2014/04/03 21:30:26 glastrm Exp $
+# $Header: /nfs/slac/g/glast/ground/cvs/AcdRecon/SConscript,v 1.47 2014/04/08 22:10:08 heather Exp $
 # Authors: Heather Kelly <heather@slac.stanford.edu>, Eric Charles <echarles@slac.stanford.edu>
-# Version: AcdRecon-05-08-01
+# Version: AcdRecon-05-07-01
 import os
 Import('baseEnv')
 Import('listFiles')
